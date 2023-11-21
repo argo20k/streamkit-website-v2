@@ -1,0 +1,47 @@
+:root {
+	/* 		colours */
+	/* grey */
+	--grey1: #ffffff; /* text icon */
+	--grey1a: #ffffff66; /* icon */
+	--grey2: #444444; /* menu */
+	--grey3: #2c2c2c; /* menu */
+	--grey4: #1e1e1e; /* button-list */
+	/* blue */
+	--blue1: #7cc4f8; /* button icon */
+	--blue2: #0c8ce9; /* submenu button checkbox icon */
+	--blue3: #4a5878; /* submenu */
+	--blue4: #394360; /* secondary-submenu */
+
+	/* 		dimensions */
+	/* outline */
+	--submenu: 0.5px;
+	--segmented-toggle: 1px;
+	--dropdown-picker-button: 1px;
+	--checkbox: 1px;
+	/* radius */
+	--segmented-toggle: 0.125rem;
+	--dropdown-option: 0rem;
+	--button: 0.125rem;
+	--button-square: 0rem;
+	--checkbox: 0.125rem;
+	--icon: 0.0625rem;
+	/* length */
+	--sidemenu-left-width: 20rem;
+	--sidemenu-right-width: 15rem;
+	--sidemenu-element-container-height: 2rem;
+	--submenu-container-height: 2rem;
+	--submenu-element-container-width: 1rem;
+	--button-height: 1.5rem;
+	--checkbox: 0.75rem;
+	/* padding */
+	--sidemenu-header-left: 1rem;
+	--submenu-content-left: 0.75rem;
+	--submenu-base-content-bottom: 0.5rem;
+	--dropdown-option-list-vertical: 0.75rem;
+	--dropdown-picker-button-list-vertical: 0.5rem;
+	--button-horizontal: 0.75rem;
+	/* gap */
+	--submenu-container-horizontal: 0.5rem;
+	--dropdown-picker-button-horizontal: auto; /* justify-content: space-between; */
+	--button-horizontal: 0.75rem;
+}
