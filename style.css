@@ -1,47 +1,83 @@
 :root {
-	/* 		colours */
+	/* 		global colours */
 	/* grey */
-	--grey1: #ffffff; /* text icon */
-	--grey1a: #ffffff66; /* icon */
-	--grey2: #444444; /* menu */
-	--grey3: #2c2c2c; /* menu */
-	--grey4: #1e1e1e; /* button-list */
+	--grey1: #ffffff;
+	--grey1a: #ffffff66;
+	--grey2: #444444;
+	--grey3: #2c2c2c;
+	--grey4: #1e1e1e;
 	/* blue */
-	--blue1: #7cc4f8; /* button icon */
-	--blue2: #0c8ce9; /* submenu button checkbox icon */
-	--blue3: #4a5878; /* submenu */
-	--blue4: #394360; /* secondary-submenu */
+	--blue1: #7cc4f8;
+	--blue2: #0c8ce9;
+	--blue3: #4a5878;
+	--blue4: #394360;
 
-	/* 		dimensions */
-	/* outline */
-	--submenu: 0.5px;
-	--segmented-toggle: 1px;
-	--dropdown-picker-button: 1px;
-	--checkbox: 1px;
-	/* radius */
-	--segmented-toggle: 0.125rem;
-	--dropdown-option: 0rem;
-	--button: 0.125rem;
-	--button-square: 0rem;
-	--checkbox: 0.125rem;
-	--icon: 0.0625rem;
-	/* length */
-	--sidemenu-left-width: 20rem;
-	--sidemenu-right-width: 15rem;
-	--sidemenu-element-container-height: 2rem;
-	--submenu-container-height: 2rem;
-	--submenu-element-container-width: 1rem;
-	--button-height: 1.5rem;
-	--checkbox: 0.75rem;
+	/* 		local colours */
+	/* text */
+	--text-primary: var(--grey1);
+	--text-secondary: var(--grey1a);
+	--solarised-text-primary: var(--blue1);
+	--solarised-text-secondary: var(--blue2);
+	/* background */
+	--bg-primary: var(--grey3);
+	--bg-secondary: var(--grey2);
+	--bg-tertiary: var(--grey4);
+	--focus-bg-primary: var(--blue2);
+	--focus-bg-secondary: var(--blue3);
+	--focus-bg-tertiary: var(--blue4);
+	/* stroke */
+	--stroke-primary: var(--bg-secondary);
+	--focus-stroke-primary: var(--focus-bg-primary);
+}
+
+:root {
+	/* 		global dimensions */
+	/* width */
+	--width1: 0.75rem;
+	--width2: 1rem;
+	--width3: 15rem;
+	--width4: 20rem;
+	/* height */
+	--height1: 0.75rem;
+	--height2: 1.5rem;
+	--height3: 2rem;
 	/* padding */
-	--sidemenu-header-left: 1rem;
-	--submenu-content-left: 0.75rem;
-	--submenu-base-content-bottom: 0.5rem;
-	--dropdown-option-list-vertical: 0.75rem;
-	--dropdown-picker-button-list-vertical: 0.5rem;
-	--button-horizontal: 0.75rem;
+	--padding1: 0.5rem;
+	--padding2: 0.75rem;
+	--padding3: 1rem;
 	/* gap */
-	--submenu-container-horizontal: 0.5rem;
-	--dropdown-picker-button-horizontal: auto; /* justify-content: space-between; */
-	--button-horizontal: 0.75rem;
+	--gap1: 0.5rem;
+	--gap2: 0.75rem;
+	/* stroke */
+	--stroke1: 0.03125rem;
+	--stroke2: 0.0625rem;
+	/* radius */
+	--radius0: 0rem;
+	--radius1: 0.0625rem;
+	--radius2: 0.125rem;
+
+	/* 		local dimensions */
+	/* width */
+	--sidemenu-primary: var(--width4);
+	--sidemenu-secondary: var(--width3);
+	--submenu-component-primary: var(--width2);
+	--submenu-component-secondary: var(--width1);
+	/* height */
+	--sidemenu-component-primary: var(--height3);
+	--submenu-component-primary: var(--height2);
+	--submenu-component-secondary: var(--height1);
+	/* padding */
+	--menu-horizontal-primary: var(--padding3);
+	--menu-horizontal-secondary: var(--padding2);
+	--menu-vertical-primary: var(--padding1);
+	/* gap */
+	--menu-primary: var(--gap1);
+	--menu-secondary: var(--gap2);
+	/* stroke */
+	--menu-primary: var(--stroke2);
+	--menu-secondary: var(--stroke1);
+	/* radius */
+	--menu-primary: var(--radius2);
+	--menu-secondary: var(--radius1);
+	--menu-tertiary: var(--radius0);
 }
