@@ -35,8 +35,9 @@
 	/* width */
 	--width1: 0.75rem;
 	--width2: 1rem;
-	--width3: 15rem;
-	--width4: 20rem;
+	--width3: 1.5rem;
+	--width4: 15rem;
+	--width5: 20rem;
 	/* height */
 	--height1: 0.75rem;
 	--height2: 1.5rem;
@@ -55,4 +56,54 @@
 	--radius0: 0rem;
 	--radius1: 0.0625rem;
 	--radius2: 0.125rem;
+}
+
+body {
+	margin: 0;
+	/* background-color: var(--bg-primary); */
+	background-color: grey;
+
+	font-family: 'Inter';
+	color: var(--text-primary);
+}
+
+input,
+textarea,
+button {
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+
+	font-family: Inter;
+	font-size: 0.6875rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+button {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	border: 0;
+
+	height: var(--height2);
+	padding: 0 var(--padding2);
+	gap: var(--gap2);
+	border-radius: var(--radius2);
+}
+button:hover {
+	background-color: var(--bg-secondary);
+}
+
+button.icon {
+	padding: 0;
+	width: var(--width3);
+}
+
+button.dropdown_option {
+	background-color: var(--bg-tertiary);
+}
+button.dropdown_option:hover {
+	background-color: var(--focus-bg-primary);
 }
