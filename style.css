@@ -107,3 +107,105 @@ button.dropdown_option {
 button.dropdown_option:hover {
 	background-color: var(--focus-bg-primary);
 }
+/* 
+
+
+
+
+
+
+
+
+
+*/
+.material-symbols-outlined {
+	font-size: 1rem;
+}
+/* 
+
+
+
+
+
+
+
+
+
+*/
+
+.select {
+	background: #2a2f3b;
+	color: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 2px #2a2f3b solid;
+	border-radius: 0.5em;
+	padding: 1em;
+	cursor: pointer;
+}
+
+/* 
+	Clicked Styles
+	(added later in JavaScript)
+ */
+.select-clicked {
+	border: 2px #26489a solid;
+}
+
+.select:hover {
+	background: #323741;
+}
+
+.caret {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 6px solid white;
+}
+
+.menu {
+	list-style: none;
+	padding: 0.2em 0.5em;
+	background: #323741;
+	border: 1px #363a43 solid;
+	border-radius: 0.5em;
+	color: #9fa5b5;
+	position: absolute;
+	top: 3em;
+	left: 50%;
+	width: 100%;
+	transform: translateX(-50%);
+	opacity: 0;
+	display: none;
+	z-index: 1;
+}
+
+.menu li {
+	padding: 0.7em 0.5em;
+	margin: 0.3em 0;
+	border-radius: 0.5em;
+	cursor: pointer;
+}
+
+.menu li:hover {
+	background: #2a2d35;
+}
+
+/* 
+	Active Styles
+	(added later in JavaScript)
+ */
+.active {
+	background: #23242a;
+}
+
+/* 
+	Open Styles
+	(added later in JavaScript)
+ */
+.menu-open {
+	display: block;
+	opacity: 1;
+}
