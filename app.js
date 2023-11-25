@@ -1,43 +1,38 @@
-// Get all dropdowns from the document
-const dropdowns = document.querySelectorAll('.dropdown');
+// Handling interactions with button groups
+const buttonGroups = document.querySelectorAll('.button-group');
 
-// Loop thorugh all dropdown elements
+buttonGroups.forEach((buttonGroup) => {
+	const buttons = buttonGroup.querySelectorAll('button');
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => {
+			buttons.forEach((button) => {
+				button.classList.remove('active');
+			});
+			button.classList.add('active');
+		});
+	});
+});
+
+// Handling interactions with dropdown picker, and option buttons
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
 dropdowns.forEach((dropdown) => {
-	// Get inner elements from each dropdown
-	const select = dropdown.querySelector('.select');
-	const menu = dropdown.querySelector('.menu');
-	const options = dropdown.querySelectorAll('.menu li');
-	const selected = dropdown.querySelector('.selected');
+	const picker = dropdown.querySelector('.dropdown-picker');
+	const pickerTextEl = picker.querySelector('.text');
+	const optionList = dropdown.querySelector('.dropdown-option-list');
+	const options = dropdown.querySelectorAll('.dropdown-option-list .dropdown-option');
 
-	/*
-    We are using this method in order to have
-    multiple dropdown menus on the page work
-    */
-
-	// Add a click event to the select element
-	select.addEventListener('click', () => {
-		// Add the clicked select styles to the select element
-		select.classList.toggle('select-clicked');
-		// Add the open styles to the menu element
-		menu.classList.toggle('menu-open');
+	picker.addEventListener('click', () => {
+		// Add the active styles to the dropdown-option-list element
+		optionList.classList.toggle('active');
 	});
 
-	// Loop through all option elements
 	options.forEach((option) => {
-		// Add a click event to the option element
 		option.addEventListener('click', () => {
-			// Change selected inner text to clicked option inner text
-			selected.innerText = option.innerText;
-			// Remove the clicked select styles to the select element
-			select.classList.remove('select-clicked');
-			// Remove the open styles to the menu element
-			menu.classList.remove('menu-open');
-			// Remove active class from all option elements
-			options.forEach((option) => {
-				option.classList.remove('active');
-			});
-			// Add active class to clicked option element
-			option.classList.add('active');
+			const optionTextEl = option.querySelector('.text');
+			pickerTextEl.innerText = optionTextEl.innerText;
+			optionList.classList.remove('active');
 		});
 	});
 });

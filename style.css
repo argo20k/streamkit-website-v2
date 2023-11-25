@@ -1,3 +1,8 @@
+body {
+	background-color: grey;
+	/* background-color: var(--bg-primary); */
+}
+
 :root {
 	/* 		global colours */
 	/* grey */
@@ -43,6 +48,7 @@
 	--height2: 1.5rem;
 	--height3: 2rem;
 	/* padding */
+	--padding0: 0rem;
 	--padding1: 0.5rem;
 	--padding2: 0.75rem;
 	--padding3: 1rem;
@@ -60,17 +66,7 @@
 
 body {
 	margin: 0;
-	/* background-color: var(--bg-primary); */
-	background-color: grey;
 
-	font-family: 'Inter';
-	color: var(--text-primary);
-}
-
-input,
-textarea,
-button {
-	background-color: var(--bg-primary);
 	color: var(--text-primary);
 
 	font-family: Inter;
@@ -80,132 +76,129 @@ button {
 	line-height: normal;
 }
 
+.material-symbols-outlined {
+	font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+	font-size: 0.75rem;
+}
+
+.interaction-playground {
+	display: flex;
+	gap: 0.5rem;
+}
+
+/* buttons */
 button {
-	display: inline-flex;
-	justify-content: center;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+
+	font-family: Inter;
+	font-size: 0.6875rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+
+	display: flex;
 	align-items: center;
-	flex-shrink: 0;
-	border: 0;
+	justify-content: center;
 
 	height: var(--height2);
 	padding: 0 var(--padding2);
 	gap: var(--gap2);
+	border: 0;
 	border-radius: var(--radius2);
-}
-button:hover {
-	background-color: var(--bg-secondary);
+
+	cursor: pointer;
 }
 
 button.icon {
-	padding: 0;
 	width: var(--width3);
+	padding: var(--padding0);
 }
 
-button.dropdown_option {
-	background-color: var(--bg-tertiary);
+button.text.active,
+button.icon.active {
+	/* button.active { */
+	background-color: var(--bg-secondary);
 }
-button.dropdown_option:hover {
+
+.material-symbols-outlined.expand-more {
+	color: var(--text-secondary);
+}
+
+/* button groups */
+.button-group {
+	border-radius: var(--radius2);
+	background: var(--bg-primary);
+
+	display: inline-grid;
+	grid-auto-columns: 1fr;
+
+	height: fit-content;
+}
+
+/* hover outline on interactive buttons */
+.button-group:hover,
+button.dropdown-picker:hover {
+	outline: var(--stroke2) solid var(--stroke-primary);
+	outline-offset: calc(-1 * var(--stroke2));
+}
+
+.button-group.segmented-toggle button {
+	grid-row: 1;
+}
+
+/* dropdown container */
+.dropdown-container {
+	display: grid;
+}
+
+/* dropdown option list */
+
+.button-group.dropdown-option-list {
+	outline: 0;
+
+	padding: var(--padding1) 0;
+
+	visibility: hidden;
+	z-index: 1;
+	& .dropdown-option span {
+		visibility: hidden;
+	}
+}
+.dropdown-option-list.active {
+	/* display: inline-grid; */
+	visibility: visible;
+	& .dropdown-option.active span {
+		visibility: visible;
+	}
+}
+
+/* dropdown picker and option buttons */
+button.dropdown-picker,
+button.dropdown-option {
+	justify-content: left;
+}
+
+button.dropdown-picker:hover {
+	justify-content: space-between;
+	& span {
+		color: var(--text-primary);
+	}
+}
+
+button.dropdown-option {
+	border-radius: var(--radius0);
+	& span {
+		visibility: hidden;
+	}
+}
+
+button.dropdown-option:hover {
 	background-color: var(--focus-bg-primary);
 }
-/* 
 
-
-
-
-
-
-
-
-
-*/
-.material-symbols-outlined {
-	font-size: 1rem;
-}
-/* 
-
-
-
-
-
-
-
-
-
-*/
-
-.select {
-	background: #2a2f3b;
-	color: #fff;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border: 2px #2a2f3b solid;
-	border-radius: 0.5em;
-	padding: 1em;
-	cursor: pointer;
-}
-
-/* 
-	Clicked Styles
-	(added later in JavaScript)
- */
-.select-clicked {
-	border: 2px #26489a solid;
-}
-
-.select:hover {
-	background: #323741;
-}
-
-.caret {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 6px solid white;
-}
-
-.menu {
-	list-style: none;
-	padding: 0.2em 0.5em;
-	background: #323741;
-	border: 1px #363a43 solid;
-	border-radius: 0.5em;
-	color: #9fa5b5;
-	position: absolute;
-	top: 3em;
-	left: 50%;
-	width: 100%;
-	transform: translateX(-50%);
-	opacity: 0;
-	display: none;
-	z-index: 1;
-}
-
-.menu li {
-	padding: 0.7em 0.5em;
-	margin: 0.3em 0;
-	border-radius: 0.5em;
-	cursor: pointer;
-}
-
-.menu li:hover {
-	background: #2a2d35;
-}
-
-/* 
-	Active Styles
-	(added later in JavaScript)
- */
-.active {
-	background: #23242a;
-}
-
-/* 
-	Open Styles
-	(added later in JavaScript)
- */
-.menu-open {
-	display: block;
-	opacity: 1;
+button.dropdown-option.active {
+	& span {
+		visibility: visible;
+	}
 }

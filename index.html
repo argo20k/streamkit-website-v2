@@ -4,41 +4,74 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>figma to streamkit website</title>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<!-- font -->
 		<link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+		<!-- icons -->
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+		<!-- CSS -->
 		<link rel="stylesheet" href="style.css" />
-		<script defer src="\app.js"></script>
+		<!-- JavaScript -->
+		<script defer src="app.js"></script>
 	</head>
 	<body>
-		<!-- <button class="icon">
-			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-				<path fill-rule="evenodd" clip-rule="evenodd" d="M4.10349 11.122L7.45749 7.76898L6.74949 7.06098L4.60349 9.20798V0.914978H3.60349L3.60349 9.20798L1.45749 7.06098L0.749489 7.76898L4.10349 11.122Z" fill="white" />
-			</svg>
-		</button>
-		<button class="text">Button Text</button>
-		<button class="dropdown_option">
-			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-				<path fill-rule="evenodd" clip-rule="evenodd" d="M4.10349 11.122L7.45749 7.76898L6.74949 7.06098L4.60349 9.20798V0.914978H3.60349L3.60349 9.20798L1.45749 7.06098L0.749489 7.76898L4.10349 11.122Z" fill="white" />
-			</svg>
-		</button> -->
-		<span class="material-symbols-outlined"> done </span>
-		<div class="dropdown">
-			<div class="select">
-				<span class="selected">All</span>
-				<div class="caret"></div>
+		<span class="material-symbols-outlined"> expand_circle_down </span>
+		<div class="interaction-playground">
+			<div class="button-group segmented-toggle">
+				<button class="icon active">
+					<span class="material-symbols-outlined"> south </span>
+				</button>
+				<button class="icon">
+					<span class="material-symbols-outlined"> east </span>
+				</button>
+				<button class="icon">
+					<span class="material-symbols-outlined"> north </span>
+				</button>
+				<button class="icon">
+					<span class="material-symbols-outlined"> west </span>
+				</button>
 			</div>
-			<ul class="menu">
-				<li class="active">
-					<span class="material-symbols-outlined"> done </span>
-					All
-				</li>
-				<li>Widget Owner</li>
-				<li>First Child</li>
-				<li>Last Child</li>
-				<li>Only Child</li>
-				<li>Discord User IDs</li>
-				<li>nth-children</li>
-			</ul>
+			<div class="button-group segmented-toggle">
+				<button class="text active"><div class="text">Base</div></button>
+				<button class="text"><div class="text">Speaking</div></button>
+			</div>
+			<div class="dropdown-container">
+				<button class="dropdown-picker">
+					<div class="text">All</div>
+					<span class="material-symbols-outlined expand-more"> expand_more </span>
+				</button>
+				<div class="button-group dropdown-option-list">
+					<button class="dropdown-option active">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">All</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Widget Owner</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">First Child</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Last Child</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Only Child</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Discord User IDs</div>
+					</button>
+					<button class="dropdown-option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">nth-children</div>
+					</button>
+				</div>
+			</div>
 		</div>
+
+		<input type="checkbox" />
 	</body>
 </html>
