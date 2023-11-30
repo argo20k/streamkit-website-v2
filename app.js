@@ -1,4 +1,5 @@
 // Button-groups
+// set active state for buttons in button-groups
 const buttonGroups = document.querySelectorAll('.button-group');
 buttonGroups.forEach((buttonGroup) => {
 	const buttons = buttonGroup.querySelectorAll('button');
@@ -16,6 +17,7 @@ buttonGroups.forEach((buttonGroup) => {
 });
 
 // Dropdowns
+// set open state for dropdown-options-menu for dropdown-pickers that are clicked
 const dropdowns = document.querySelectorAll('.dropdown-container');
 dropdowns.forEach((dropdown) => {
 	const picker = dropdown.querySelector('.dropdown.picker');
@@ -41,27 +43,109 @@ dropdowns.forEach((dropdown) => {
 	});
 });
 
-// Direction Buttons + Alignment Button-group Links
+// - whenever a direction button is clicked - gets the active direction
+// - changes the state of alignment accordingly
 const directionButtons = document.querySelectorAll('.button-group.direction button');
 const alignmentButtonGroup = document.querySelector('.button-group.alignment');
 directionButtons.forEach((directionButton) => {
+	// whenever a direction button is clicked
 	directionButton.addEventListener('click', () => {
-		// Removes vertical + horizontal + reverse styles, if enabled
-		alignmentButtonGroup.classList.remove('vertical');
-		alignmentButtonGroup.classList.remove('horizontal');
-		alignmentButtonGroup.classList.remove('reverse');
+		// remove the current direction from .button-group.alignment -> so that the new one that is active can be added
+		directionButtons.forEach((directionButton) => {
+			alignmentButtonGroup.classList.remove(directionButton.id);
+		});
 
-		// Adds appropriate styles for respective direction buttons that are clicked
-		if (directionButton.id === 'row') {
-			alignmentButtonGroup.classList.add('vertical');
-		} else if (directionButton.id === 'row-reverse') {
-			alignmentButtonGroup.classList.add('vertical');
-			alignmentButtonGroup.classList.add('reverse');
-		} else if (directionButton.id === 'column') {
-			alignmentButtonGroup.classList.add('horizontal');
-		} else if (directionButton.id === 'column-reverse') {
-			alignmentButtonGroup.classList.add('horizontal');
-			alignmentButtonGroup.classList.add('reverse');
-		}
+		// get the active direction from the direction-button-group
+		directionButtons.forEach((directionButton) => {
+			if (directionButton.classList.contains('active')) {
+				alignmentButtonGroup.classList.add(directionButton.id);
+			}
+		});
 	});
 });
+
+// Wrappers
+const wrappers = document.querySelectorAll('.wrapper');
+wrappers.forEach((wrapper) => {
+	// Text Input
+	const inputs = wrapper.querySelectorAll('input[type="text"]');
+	inputs.forEach((input) => {
+		wrapper.addEventListener('mouseover', () => {
+			input.classList.remove('autoSize');
+			input.removeAttribute('style');
+		});
+		wrapper.addEventListener('mouseout', () => {
+			input.classList.add('autoSize');
+			onInputDelegate({ target: input });
+		});
+	});
+});
+
+// Submenus
+const submenus = document.querySelectorAll('.submenu-container');
+submenus.forEach((dropdown) => {
+	const header = dropdown.querySelector('.submenu.header');
+	const container = dropdown.querySelector('.submenu.container');
+
+	const expand_button = header.querySelector('.shape-group.expand');
+
+	expand_button.addEventListener('click', () => {
+		// Toggles open styles for dropdown-options-menu
+		container.classList.toggle('open');
+		expand_button.classList.toggle('more');
+		expand_button.classList.toggle('less');
+	});
+});
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var getInputValueWidth = (function () {
+	// https://stackoverflow.com/a/49982135/104380
+	function copyNodeStyle(sourceNode, targetNode) {
+		var computedStyle = window.getComputedStyle(sourceNode);
+		Array.from(computedStyle).forEach((key) => targetNode.style.setProperty(key, computedStyle.getPropertyValue(key), computedStyle.getPropertyPriority(key)));
+	}
+
+	function createInputMeassureElm(inputelm) {
+		// create a dummy input element for measurements
+		var meassureElm = document.createElement('span');
+		// copy the read input's styles to the dummy input
+		copyNodeStyle(inputelm, meassureElm);
+
+		// set hard-coded styles needed for propper meassuring
+		meassureElm.style.width = 'auto';
+		meassureElm.style.position = 'absolute';
+		meassureElm.style.left = '-9999px';
+		meassureElm.style.top = '-9999px';
+		meassureElm.style.whiteSpace = 'pre';
+
+		meassureElm.textContent = inputelm.value || '';
+
+		// add the meassure element to the body
+		document.body.appendChild(meassureElm);
+
+		return meassureElm;
+	}
+
+	return function () {
+		return createInputMeassureElm(this).offsetWidth;
+	};
+})();
+
+// delegated event binding
+document.body.addEventListener('input', onInputDelegate);
+
+function onInputDelegate(e) {
+	if (e.target.classList.contains('autoSize')) e.target.style.width = getInputValueWidth.call(e.target) + 'px';
+}
+
+for (let input of document.querySelectorAll('input')) onInputDelegate({ target: input });
