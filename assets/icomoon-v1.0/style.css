@@ -1,0 +1,114 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ak9v8u');
+  src:  url('fonts/icomoon.eot?ak9v8u#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ak9v8u') format('truetype'),
+    url('fonts/icomoon.woff?ak9v8u') format('woff'),
+    url('fonts/icomoon.svg?ak9v8u#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-add-circle:before {
+  content: "\e900";
+}
+.icon-add:before {
+  content: "\e901";
+}
+.icon-alignment-horizontal-center-reverse:before {
+  content: "\e902";
+}
+.icon-alignment-horizontal-center:before {
+  content: "\e903";
+}
+.icon-alignment-horizontal-left-reverse:before {
+  content: "\e904";
+}
+.icon-alignment-horizontal-left:before {
+  content: "\e905";
+}
+.icon-alignment-horizontal-right-reverse:before {
+  content: "\e906";
+}
+.icon-alignment-horizontal-right:before {
+  content: "\e907";
+}
+.icon-alignment-vertical-bottom-reverse:before {
+  content: "\e908";
+}
+.icon-alignment-vertical-bottom:before {
+  content: "\e909";
+}
+.icon-alignment-vertical-center-reverse:before {
+  content: "\e90a";
+}
+.icon-alignment-vertical-center:before {
+  content: "\e90b";
+}
+.icon-alignment-vertical-top-reverse:before {
+  content: "\e90c";
+}
+.icon-alignment-vertical-top:before {
+  content: "\e90d";
+}
+.icon-arrow-down:before {
+  content: "\e90e";
+}
+.icon-arrow-left:before {
+  content: "\e90f";
+}
+.icon-arrow-right:before {
+  content: "\e910";
+}
+.icon-arrow-up:before {
+  content: "\e911";
+}
+.icon-check:before {
+  content: "\e912";
+}
+.icon-circle-small:before {
+  content: "\e913";
+}
+.icon-delete:before {
+  content: "\e914";
+}
+.icon-drop-arrow-down:before {
+  content: "\e915";
+}
+.icon-drop-arrow-right:before {
+  content: "\e916";
+}
+.icon-expand-less:before {
+  content: "\e917";
+}
+.icon-expand-more:before {
+  content: "\e918";
+}
+.icon-square-cropped:before {
+  content: "\e919";
+}
+.icon-square:before {
+  content: "\e91a";
+}
+.icon-visibility-off:before {
+  content: "\e91b";
+}
+.icon-visibility-on:before {
+  content: "\e91c";
+}
