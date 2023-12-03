@@ -92,3 +92,126 @@ span[class^='icon-'] {
 	font-size: var(--font-size2);
 	color: var(--text-primary);
 }
+
+/* 
+
+*/
+
+input {
+	background-color: var(--bg-primary);
+}
+
+/* 
+
+*/
+
+/* button { */
+button {
+	/* Default button is a button with only text, other variations should have class-associated styles to it (i.e. icon/dropdown/dropdown.picker) */
+	background-color: var(--bg-primary);
+	height: var(--height2);
+	padding: 0 var(--padding2);
+	gap: var(--gap2);
+	border-radius: var(--radius2);
+
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	/* These are the icon buttons, more uncommon */
+	&.icon {
+		width: var(--width3);
+	}
+
+	&.dropdown {
+		justify-content: left;
+
+		&.dropdown.picker {
+			& span[class^='icon-'] {
+				color: var(--text-secondary);
+			}
+
+			/*  */
+			width: 100%;
+		}
+		&.dropdown.option {
+			background-color: var(--bg-tertiary);
+			border-radius: var(--radius0);
+
+			& span[class^='icon-'] {
+				visibility: hidden;
+			}
+		}
+	}
+}
+button:hover {
+	&.dropdown.picker {
+		justify-content: space-between;
+
+		outline: var(--stroke2) solid var(--bg-secondary);
+		outline: var(--stroke2) solid yellow;
+		outline-offset: calc(-1 * var(--stroke2));
+		& span[class^='icon-'] {
+			color: var(--text-primary);
+		}
+	}
+	&.dropdown.option {
+		background-color: var(--focus-bg-primary);
+	}
+}
+button[data-state='selected'] {
+	background-color: var(--bg-secondary);
+	background-color: yellow;
+
+	&.dropdown.option span[class^='icon-'] {
+		visibility: visible;
+	}
+}
+
+/* 
+
+*/
+
+.wrapper.button-group {
+	background-color: var(--bg-primary);
+	width: fit-content;
+	height: fit-content;
+	border-radius: var(--radius2);
+
+	display: grid;
+	grid-auto-columns: 1fr;
+
+	& button {
+		grid-row: 1;
+	}
+
+	&.dropdown-options-menu {
+		background-color: yellow;
+		padding: var(--padding1) 0;
+		& button {
+			grid-row: initial;
+		}
+
+		/* position: absolute; */
+	}
+}
+.wrapper.button-group:hover {
+	outline: var(--stroke2) solid var(--bg-secondary);
+	outline: var(--stroke2) solid yellow;
+	outline-offset: calc(-1 * var(--stroke2));
+
+	&.dropdown-options-menu,
+	&.dropdown {
+		outline: none;
+	}
+}
+.wrapper.button-group[data-visibility='visible'] {
+	display: grid;
+}
+.wrapper.button-group[data-visibility='hidden'] {
+	display: none;
+}
+
+/* 
+
+*/
