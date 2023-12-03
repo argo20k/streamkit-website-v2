@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>figma to streamkit website</title>
+		<!-- font -->
+		<link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+		<!-- icons -->
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+		<!-- CSS -->
+		<link rel="stylesheet" href="style.css" />
+		<!-- JavaScript -->
+		<script defer src="app.js"></script>
+	</head>
+	<body>
+		<div class="wrapper interaction-playground">
+			<div class="button-group direction">
+				<button class="icon active" id="column">
+					<span class="material-symbols-outlined"> south </span>
+				</button>
+				<button class="icon" id="row">
+					<span class="material-symbols-outlined"> east </span>
+				</button>
+				<button class="icon" id="column-reverse">
+					<span class="material-symbols-outlined"> north </span>
+				</button>
+				<button class="icon" id="row-reverse">
+					<span class="material-symbols-outlined"> west </span>
+				</button>
+			</div>
+			<div class="button-group alignment column">
+				<button class="icon alignment row1 column1 active">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row1 column2">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row1 column3">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row2 column1">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row2 column2">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row2 column3">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row3 column1">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row3 column2">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+				<button class="icon alignment row3 column3">
+					<div class="shape-group rectangles">
+						<div class="shape rectangle one"></div>
+						<div class="shape rectangle two"></div>
+						<div class="shape rectangle three"></div>
+					</div>
+					<div class="shape circle"></div>
+				</button>
+			</div>
+			<div class="button-group">
+				<button class="text active"><div class="text">Base</div></button>
+				<button class="text"><div class="text">Speaking</div></button>
+			</div>
+			<div class="button-group">
+				<button class="text active"><div class="text">Is</div></button>
+				<button class="text"><div class="text">Is Not</div></button>
+			</div>
+			<div class="wrapper dropdown-container">
+				<button class="dropdown picker">
+					<div class="text">All</div>
+					<span class="material-symbols-outlined expand-more"> expand_more </span>
+				</button>
+				<div class="button-group dropdown-options-menu">
+					<button class="dropdown option active">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">All</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Widget Owner</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">First Child</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Last Child</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Only Child</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">Discord User IDs</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">nth-children</div>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<button class="icon checkbox">
+			<span class="material-symbols-outlined"> check </span>
+		</button>
+		<button class="icon checkbox active">
+			<span class="material-symbols-outlined"> check </span>
+		</button>
+
+		<div class="shape-group visibility visible">
+			<span class="material-symbols-outlined visible"> visibility </span>
+			<span class="material-symbols-outlined hidden"> visibility_off </span>
+			<div class="shape circle auto"></div>
+		</div>
+		<div class="shape-group visibility hidden">
+			<span class="material-symbols-outlined visible"> visibility </span>
+			<span class="material-symbols-outlined hidden"> visibility_off </span>
+			<div class="shape circle auto"></div>
+		</div>
+		<div class="shape-group visibility auto">
+			<span class="material-symbols-outlined visible"> visibility </span>
+			<span class="material-symbols-outlined hidden"> visibility_off </span>
+			<div class="shape circle auto"></div>
+		</div>
+
+		<div class="shape-group expand less">
+			<span class="material-symbols-outlined less"> arrow_right </span>
+			<span class="material-symbols-outlined more"> arrow_drop_down </span>
+		</div>
+		<div class="shape-group expand more">
+			<span class="material-symbols-outlined less"> arrow_right </span>
+			<span class="material-symbols-outlined more"> arrow_drop_down </span>
+		</div>
+
+		<div class="wrapper submenu-container">
+			<div class="wrapper submenu header">
+				<button class="icon submenu expand">
+					<div class="shape-group expand less">
+						<span class="material-symbols-outlined less"> arrow_right </span>
+						<span class="material-symbols-outlined more"> arrow_drop_down </span>
+					</div>
+				</button>
+
+				<button class="icon checkbox">
+					<span class="material-symbols-outlined"> check </span>
+				</button>
+
+				<div class="button-group">
+					<button class="text active"><div class="text">Is</div></button>
+					<button class="text"><div class="text">Is Not</div></button>
+				</div>
+
+				<div class="wrapper dropdown-container">
+					<button class="dropdown picker">
+						<div class="text">All</div>
+						<span class="material-symbols-outlined expand-more"> expand_more </span>
+					</button>
+					<div class="button-group dropdown-options-menu">
+						<button class="dropdown option active">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">All</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">Widget Owner</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">First Child</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">Last Child</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">Only Child</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">Discord User IDs</div>
+						</button>
+						<button class="dropdown option">
+							<span class="material-symbols-outlined"> check </span>
+							<div class="text">nth-children</div>
+						</button>
+					</div>
+				</div>
+
+				<button class="icon submenu">
+					<div class="shape-group visibility visible">
+						<span class="material-symbols-outlined visible"> visibility </span>
+						<span class="material-symbols-outlined hidden"> visibility_off </span>
+						<div class="shape circle auto"></div>
+					</div>
+				</button>
+
+				<button class="icon submenu">
+					<span class="material-symbols-outlined"> delete </span>
+				</button>
+			</div>
+			<div class="wrapper submenu container">
+				<div class="wrapper input">
+					<label for="" class="label">nth-child</label>
+					<input type="text" class="autoSize" onClick="this.setSelectionRange(0, this.value.length)" />
+				</div>
+
+				<button class="icon submenu">
+					<div class="shape-group visibility visible">
+						<span class="material-symbols-outlined visible"> visibility </span>
+						<span class="material-symbols-outlined hidden"> visibility_off </span>
+						<div class="shape circle auto"></div>
+					</div>
+				</button>
+				<button class="icon submenu">
+					<span class="material-symbols-outlined"> delete </span>
+				</button>
+			</div>
+		</div>
+
+		<!--  -->
+
+		<!-- <div class="wrapper input">
+			<label for="" class="label">nth-child</label>
+			<input type="text" class="autoSize" onClick="this.setSelectionRange(0, this.value.length)" />
+		</div> -->
+		<!--  -->
+		<div class="wrapper input">
+			<label for="" class="label"> <span class="material-symbols-outlined"> grid_guides </span> </label>
+
+			<input type="text" class="autoSize" onClick="this.setSelectionRange(0, this.value.length)" />
+			<div class="wrapper dropdown-container units">
+				<button class="dropdown picker units">
+					<div class="text">rem</div>
+					<span class="material-symbols-outlined expand-more"> expand_more </span>
+				</button>
+				<div class="button-group dropdown-options-menu">
+					<button class="dropdown option active">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">rem</div>
+					</button>
+					<button class="dropdown option">
+						<span class="material-symbols-outlined"> check </span>
+						<div class="text">px</div>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<input type="text" onClick="this.setSelectionRange(0, this.value.length)" />
+		<!--  -->
+	</body>
+</html>

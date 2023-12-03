@@ -72,8 +72,8 @@ function toggleDropdownState(dropdown) {
 	}
 }
 
-const dropdowns = document.querySelectorAll('.wrapper.dropdown');
-dropdowns.forEach((dropdown) => {
+const dropdownWrappers = document.querySelectorAll('.wrapper.dropdown');
+dropdownWrappers.forEach((dropdown) => {
 	// all "dropdown-options-menu"s are closed by default
 	closeDropdown(dropdown);
 
@@ -96,7 +96,7 @@ document.addEventListener('click', (e) => {
 
 	if (!clickedDropdownOptionsMenu && !clickedDropdownPickerButton) {
 		// close all dropdowns when dropdowns aren't focused
-		dropdowns.forEach((dropdown) => {
+		dropdownWrappers.forEach((dropdown) => {
 			closeDropdown(dropdown);
 		});
 	}
@@ -107,7 +107,7 @@ document.addEventListener('click', (e) => {
 		toggleDropdownState(currentDropdownWrapper);
 
 		// close all other dropdowns
-		dropdowns.forEach((dropdown) => {
+		dropdownWrappers.forEach((dropdown) => {
 			if (dropdown !== currentDropdownWrapper) {
 				closeDropdown(dropdown);
 			}
@@ -122,6 +122,23 @@ document.addEventListener('click', (e) => {
 		currentDropdownWrapper.dataset.selectedOption = clickedDropdownOptionButton.dataset.option;
 		updateDropdownWrapper(currentDropdownWrapper);
 	}
+});
+
+//
+//
+// Inputs
+
+const inputWrappers = document.querySelectorAll('.wrapper.input');
+inputWrappers.forEach((inputWrapper) => {
+	var input = inputWrapper.querySelector('input');
+	inputWrapper.addEventListener('mouseover', () => {
+		input.classList.remove('autoSize');
+		input.removeAttribute('style');
+	});
+	inputWrapper.addEventListener('mouseout', () => {
+		input.classList.add('autoSize');
+		onInputDelegate({ target: input });
+	});
 });
 
 //
@@ -176,4 +193,8 @@ function onInputDelegate(e) {
 	if (e.target.classList.contains('autoSize')) e.target.style.width = getInputValueWidth.call(e.target) + 'px';
 }
 
-for (let input of document.querySelectorAll('input')) onInputDelegate({ target: input });
+const inputs = document.querySelectorAll('input');
+inputs.forEach((input) => {
+	input.classList.add('autoSize');
+	onInputDelegate({ target: input });
+});

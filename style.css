@@ -98,7 +98,11 @@ span[class^='icon-'] {
 */
 
 input {
+	/* temp just so they're easy to see */
 	background-color: var(--bg-primary);
+
+	width: 100%;
+	height: var(--height2);
 }
 
 /* 
@@ -107,7 +111,7 @@ input {
 
 /* button { */
 button {
-	/* Default button is a button with only text, other variations should have class-associated styles to it (i.e. icon/dropdown/dropdown.picker) */
+	/* default button is a button with only text, other variations should have class-associated styles to it (i.e. icon/dropdown/dropdown.picker) */
 	background-color: var(--bg-primary);
 	height: var(--height2);
 	padding: 0 var(--padding2);
@@ -172,7 +176,9 @@ button[data-state='selected'] {
 
 */
 
-.wrapper.button-group {
+/* .wrapper.button-group{ */
+.wrapper.button-group,
+.wrapper.input {
 	background-color: var(--bg-primary);
 	width: fit-content;
 	height: fit-content;
@@ -186,16 +192,43 @@ button[data-state='selected'] {
 	}
 
 	&.dropdown-options-menu {
-		background-color: yellow;
+		background-color: var(--bg-tertiary);
 		padding: var(--padding1) 0;
 		& button {
 			grid-row: initial;
 		}
 
-		/* position: absolute; */
+		position: absolute;
+	}
+
+	&.input {
+		width: 100%;
+		height: var(--height2);
+
+		display: flex;
+		align-items: center;
+
+		/* don't shrink children of input wrapper, other than input */
+		& > :not(input) {
+			flex-shrink: 0;
+		}
+
+		& .wrapper.prefix {
+			padding: 0 var(--padding1);
+		}
+		& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+			color: var(--text-secondary);
+			padding: 0 var(--padding1);
+			gap: var(--gap0);
+			& span[class^='icon-'] {
+				display: none;
+			}
+		}
 	}
 }
-.wrapper.button-group:hover {
+/* .wrapper.button-group:hover { */
+.wrapper.button-group:hover,
+.wrapper.input:hover {
 	outline: var(--stroke2) solid var(--bg-secondary);
 	outline: var(--stroke2) solid yellow;
 	outline-offset: calc(-1 * var(--stroke2));
@@ -203,6 +236,15 @@ button[data-state='selected'] {
 	&.dropdown-options-menu,
 	&.dropdown {
 		outline: none;
+	}
+
+	&.input .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+		outline: none;
+
+		color: var(--text-primary);
+		& span[class^='icon-'] {
+			display: initial;
+		}
 	}
 }
 .wrapper.button-group[data-visibility='visible'] {
