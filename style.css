@@ -152,9 +152,6 @@ button:hover {
 	&.dropdown.picker {
 		justify-content: space-between;
 
-		outline: var(--stroke2) solid var(--bg-secondary);
-		outline: var(--stroke2) solid yellow;
-		outline-offset: calc(-1 * var(--stroke2));
 		& span[class^='icon-'] {
 			color: var(--text-primary);
 		}
@@ -173,12 +170,28 @@ button[data-state='selected'] {
 }
 
 /* 
-
+outline
 */
 
-/* .wrapper.button-group{ */
-.wrapper.button-group,
-.wrapper.input {
+button.dropdown.picker:hover,
+.wrapper.button-group:hover,
+.wrapper.input:hover,
+.wrapper.alignment {
+	outline: var(--stroke2) solid var(--bg-secondary);
+	outline: var(--stroke2) solid yellow;
+	outline-offset: calc(-1 * var(--stroke2));
+}
+
+.wrapper.dropdown-options-menu:hover,
+.wrapper.input:hover .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+	outline: none;
+}
+
+/* 
+base wrapper class
+*/
+
+.wrapper {
 	background-color: var(--bg-primary);
 	width: fit-content;
 	height: fit-content;
@@ -190,70 +203,133 @@ button[data-state='selected'] {
 	& button {
 		grid-row: 1;
 	}
+}
+.wrapper[data-visibility='visible'] {
+	display: grid;
+}
+.wrapper[data-visibility='hidden'] {
+	display: none;
+}
 
-	&.dropdown-options-menu {
-		background-color: var(--bg-tertiary);
-		padding: var(--padding1) 0;
-		& button {
-			grid-row: initial;
-		}
+/* 
+dropdown-options-menu wrapper
+*/
 
-		position: absolute;
+.wrapper.dropdown-options-menu {
+	background-color: var(--bg-tertiary);
+	padding: var(--padding1) 0;
+
+	& button {
+		grid-row: initial;
 	}
 
-	&.input {
-		width: 100%;
-		height: var(--height2);
+	position: absolute;
+}
 
-		display: flex;
-		align-items: center;
+/* 
+input wrapper
+*/
 
-		/* don't shrink children of input wrapper, other than input */
-		& > :not(input) {
-			flex-shrink: 0;
-		}
+.wrapper.input {
+	width: 100%;
+	height: var(--height2);
 
-		& .wrapper.prefix {
-			padding: 0 var(--padding1);
-		}
-		& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
-			color: var(--text-secondary);
-			padding: 0 var(--padding1);
-			gap: var(--gap0);
-			& span[class^='icon-'] {
-				display: none;
-			}
+	display: flex;
+	align-items: center;
+
+	/* don't shrink children of input wrapper, other than input */
+	& > :not(input) {
+		flex-shrink: 0;
+	}
+
+	& .wrapper.prefix {
+		padding: 0 var(--padding1);
+	}
+	& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+		color: var(--text-secondary);
+		padding: 0 var(--padding1);
+		gap: var(--gap0);
+		& span[class^='icon-'] {
+			display: none;
 		}
 	}
 }
-/* .wrapper.button-group:hover { */
-.wrapper.button-group:hover,
 .wrapper.input:hover {
-	outline: var(--stroke2) solid var(--bg-secondary);
-	outline: var(--stroke2) solid yellow;
-	outline-offset: calc(-1 * var(--stroke2));
-
-	&.dropdown-options-menu,
-	&.dropdown {
-		outline: none;
-	}
-
-	&.input .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
-		outline: none;
-
+	& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
 		color: var(--text-primary);
 		& span[class^='icon-'] {
 			display: initial;
 		}
 	}
 }
-.wrapper.button-group[data-visibility='visible'] {
-	display: grid;
-}
-.wrapper.button-group[data-visibility='hidden'] {
-	display: none;
-}
 
 /* 
-
+alignment wrapper
 */
+
+.wrapper.alignment {
+	grid-template-columns: 1fr 1fr 1fr;
+
+	& button {
+		grid-row: initial;
+
+		/*  */
+		/* background-color: green; */
+
+		/* border radius on only corner buttons */
+		border-radius: var(--radius0);
+		&:nth-child(1) {
+			border-top-left-radius: var(--radius2);
+		}
+		&:nth-child(3) {
+			border-top-right-radius: var(--radius2);
+		}
+		&:nth-child(7) {
+			border-bottom-left-radius: var(--radius2);
+		}
+		&:nth-child(9) {
+			border-bottom-right-radius: var(--radius2);
+		}
+
+		& span[class^='icon-circle-small'] {
+			display: block;
+		}
+		& span[class^='icon-alignment'] {
+			display: none;
+		}
+	}
+	& button:hover {
+		& span[class^='icon-'] {
+			color: var(--solarised-text-secondary);
+		}
+
+		& span[class^='icon-circle-small'] {
+			display: none;
+		}
+		& span[class^='icon-alignment'] {
+			display: block;
+		}
+	}
+	& button[data-state='selected'] {
+		background-color: initial;
+
+		& span[class^='icon-'] {
+			color: var(--solarised-text-primary);
+		}
+
+		& span[class^='icon-circle-small'] {
+			display: none;
+		}
+		& span[class^='icon-alignment'] {
+			display: block;
+		}
+	}
+}
+
+.wrapper.direction-and-alignment {
+	border-radius: var(--radius0);
+	gap: var(--gap1);
+
+	/*  */
+	background-color: green;
+}
