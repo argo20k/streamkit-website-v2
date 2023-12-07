@@ -14,356 +14,535 @@ function elementFromHtml(html) {
 
 //
 //
-// Button-groups
+// buttons
 
-const buttonGroups = document.querySelectorAll('.button-group');
-buttonGroups.forEach((buttonGroup) => {
-	var buttons = buttonGroup.querySelectorAll('button');
+// submenus.buttons
 
-	buttons.forEach((button) => {
-		button.addEventListener('click', () => {
-			buttons.forEach((button) => {
-				// Sets all button states, in button-group to '' (default)
-				button.removeAttribute('data-state');
-			});
-			// Sets the selected button state to 'selected'
-			button.dataset.state = 'selected';
-		});
+const visbilityIconsHtml = {
+	visible: '<span class="icon-visibility-on"></span>',
+	hidden: '<span class="icon-visibility-off"></span>',
+};
+const submenuArrowIconsHtml = {
+	less: '<span class="icon-drop-arrow-right"></span>',
+	more: '<span class="icon-drop-arrow-down"></span>',
+};
+
+var observer8 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				if (mutation.target.dataset.state === 'inactive') {
+					mutation.target.innerHTML = visbilityIconsHtml['hidden'];
+				} else if (mutation.target.dataset.state === 'active') {
+					mutation.target.innerHTML = visbilityIconsHtml['visible'];
+				}
+			}
+		}
 	});
-
-	// First button always selected by default
-	buttons[0].dataset.state = 'selected';
 });
-
-//
-//
-// Dropdowns
-
-function updateDropdownWrapper(dropdown) {
-	var dropdownOptionsMenu = dropdown.querySelector('.button-group.dropdown-options-menu');
-
-	if (dropdown.dataset.state === 'closed') {
-		dropdownOptionsMenu.dataset.visibility = 'hidden';
-	} else if (dropdown.dataset.state === 'open') {
-		dropdownOptionsMenu.dataset.visibility = 'visible';
-	}
-
-	var dropdownPickerButton = dropdown.querySelector('button.dropdown.picker');
-	var text_to_change = dropdownPickerButton.childNodes[0];
-	text_to_change.nodeValue = dropdown.dataset.selectedOption;
-}
-
-function closeDropdown(dropdown) {
-	dropdown.dataset.state = 'closed';
-	updateDropdownWrapper(dropdown);
-}
-
-function openDropdown(dropdown) {
-	dropdown.dataset.state = 'open';
-	updateDropdownWrapper(dropdown);
-}
-
-function toggleDropdownState(dropdown) {
-	if (dropdown.dataset.state === 'open') {
-		closeDropdown(dropdown);
-	} else if (dropdown.dataset.state === 'closed') {
-		openDropdown(dropdown);
-	}
-}
-
-const dropdownWrappers = document.querySelectorAll('.wrapper.dropdown');
-dropdownWrappers.forEach((dropdown) => {
-	// all "dropdown-options-menu"s are closed by default
-	closeDropdown(dropdown);
-
-	var dropdownOptions = dropdown.querySelectorAll('button.dropdown.option');
-	dropdownOptions.forEach((dropdownOptionButton) => {
-		dropdownOptionButton.dataset.option = dropdownOptionButton.textContent;
-
-		// sets the selected-option of the dropdown
-		if (dropdownOptionButton.dataset.state === 'selected') {
-			dropdown.dataset.selectedOption = dropdownOptionButton.dataset.option;
-			updateDropdownWrapper(dropdown);
+var observer9 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				if (mutation.target.dataset.state === 'inactive') {
+					mutation.target.innerHTML = submenuArrowIconsHtml['less'];
+				} else if (mutation.target.dataset.state === 'active') {
+					mutation.target.innerHTML = submenuArrowIconsHtml['more'];
+				}
+			}
 		}
 	});
 });
 
-document.addEventListener('click', (e) => {
-	const clickedDropdownOptionsMenu = e.target.closest('.wrapper.dropdown-options-menu');
-	const clickedDropdownPickerButton = e.target.closest('button.dropdown.picker');
-	const clickedDropdownOptionButton = e.target.closest('button.dropdown.option');
+function getButtonsWithoutClasses() {
+	return document.querySelectorAll('button:not([class])');
+}
 
-	if (!clickedDropdownOptionsMenu && !clickedDropdownPickerButton) {
-		// close all dropdowns when dropdowns aren't focused
-		dropdownWrappers.forEach((dropdown) => {
-			closeDropdown(dropdown);
+function setButtonData() {
+	var buttonsWithoutClasses = getButtonsWithoutClasses();
+
+	buttonsWithoutClasses.forEach((buttonWithoutClasses) => {
+		// add default button data depending on button type
+
+		var textContentArray = buttonWithoutClasses.textContent.split(',').map(function (item) {
+			return item.trim();
 		});
-	}
-	let currentDropdownWrapper;
-	if (clickedDropdownPickerButton) {
-		// toggle dropdown state (open/closed)
-		currentDropdownWrapper = clickedDropdownPickerButton.parentNode;
-		toggleDropdownState(currentDropdownWrapper);
+		var iconName;
+		var dataValue;
+		var classNames = [];
+		var HTML;
 
-		// close all other dropdowns
-		dropdownWrappers.forEach((dropdown) => {
-			if (dropdown !== currentDropdownWrapper) {
-				closeDropdown(dropdown);
+		textContentArray.forEach((buttonData) => {
+			if (/icon-/i.test(buttonData)) {
+				iconName = buttonData.toLowerCase();
+				classNames.push('icon');
+				HTML = `<span class="${iconName}"></span>`;
+			}
+			if (/dropdownOption-/i.test(buttonData)) {
+				dataValue = buttonData.replace(/dropdownOption-/i, '');
+				classNames.push('dropdown-option');
+				HTML = `<span class="icon-check"></span>${dataValue}`;
+			} else if (/dropdownPicker/i.test(buttonData)) {
+				classNames.push('dropdown-picker');
+				HTML = `Select an Option<span class="icon-expand-more"></span>`;
+			}
+			if (/checkbox/i.test(buttonData)) {
+				classNames.push('checkbox');
+				HTML = `<span class="icon-check"></span>`;
+			}
+			if (/alignment/i.test(buttonData)) {
+				classNames.push('icon');
+				classNames.push('alignment');
+				HTML = `<span class="icon-square-cropped"></span>`;
+			}
+			if (/submenu/i.test(buttonData)) {
+				classNames.push('submenu');
+			}
+			if (/visibility/i.test(buttonData)) {
+				classNames.push('visibility');
+			}
+			if (/submenu-arrow/i.test(buttonData)) {
+				classNames.push('submenu-arrow');
+			}
+			if (/trailingText-/i.test(buttonData)) {
+				trailingTextValue = buttonData.replace(/trailingText-/i, '');
+				HTML += trailingTextValue;
+				classNames.pop('icon');
+			}
+			if (/addElement-/i.test(buttonData)) {
+				classNames.push('add-element');
+				HTML = `<span class="icon-add"></span>${buttonData.replace(/addElement-/i, '')}`;
+			}
+
+			if (/data-/i.test(buttonData)) {
+				classNames.push('text');
+				dataValue = buttonData.replace(/data-/i, '');
+				// if button data only includes data and nothing else, then just set the innerhtml to the dataValue as well
+				if (textContentArray.length <= 1) {
+					HTML = dataValue;
+				}
+			}
+		});
+
+		// this order is important, so data and class attributes don't get redefined by innerHTML line
+		buttonWithoutClasses.innerHTML = HTML;
+		if (dataValue) {
+			buttonWithoutClasses.dataset.value = dataValue;
+		}
+		classNames.forEach((className) => {
+			buttonWithoutClasses.classList.add(className);
+		});
+
+		if (buttonWithoutClasses.classList.contains('visibility')) {
+			var visbilityButton = buttonWithoutClasses;
+			// add data-state observer to visiblity.buttons
+			// updates visiblity.buttons innerHTML
+			observer8.observe(visbilityButton, {
+				attributes: true,
+			});
+		}
+		if (buttonWithoutClasses.classList.contains('submenu-arrow')) {
+			var submenuArrowButton = buttonWithoutClasses;
+			// add data-state observer to submenu-arrow.buttons
+			// updates submenu-arrow.buttons innerHTML
+			observer9.observe(submenuArrowButton, {
+				attributes: true,
+			});
+		}
+
+		buttonWithoutClasses.dataset.state = 'inactive';
+
+		if (!buttonWithoutClasses.parentNode.classList.contains('button-group')) {
+			buttonWithoutClasses.addEventListener('click', () => {
+				if (buttonWithoutClasses.dataset.state === 'inactive') {
+					buttonWithoutClasses.dataset.state = 'active';
+				} else if (buttonWithoutClasses.dataset.state === 'active') {
+					buttonWithoutClasses.dataset.state = 'inactive';
+				}
+			});
+		}
+	});
+}
+
+setButtonData();
+
+//
+//
+//  button-group + button-group.buttons
+
+var observer1 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.target.dataset.state === 'active') {
+				mutation.target.parentNode.dataset.selectedButton = mutation.target.dataset.value;
+			}
+		}
+	});
+});
+
+// button-group
+const buttonGroupWrappers = document.querySelectorAll('.wrapper.button-group');
+buttonGroupWrappers.forEach((buttonGroupWrapper) => {
+	// button-group.buttons
+	var buttonGroupButtons = buttonGroupWrapper.querySelectorAll('button');
+	buttonGroupButtons.forEach((buttonGroupButton) => {
+		buttonGroupButton.addEventListener('click', () => {
+			buttonGroupButtons.forEach((buttonGroupButton2) => {
+				// for the other buttons that weren't clicked
+				// Sets all button states, in button-group to '' (default)
+				if (buttonGroupButton2 !== buttonGroupButton) {
+					if (buttonGroupButton2.dataset.state === 'active') {
+						buttonGroupButton2.dataset.state = 'inactive';
+					}
+				}
+			});
+			// Sets the selected button state to 'selected'
+			if (buttonGroupButton.dataset.state === 'inactive') {
+				buttonGroupButton.dataset.state = 'active';
+			}
+		});
+
+		observer1.observe(buttonGroupButton, {
+			attributes: true,
+		});
+	});
+
+	buttonGroupButtons[0].dataset.state = 'active';
+});
+
+//
+//
+// dropdowns
+
+function updateDropdownWrapperDataExpanded(dropdownPickerButton) {
+	var dropdownWrapper = dropdownPickerButton.parentNode;
+	if (dropdownPickerButton.dataset.state === 'active') {
+		dropdownWrapper.dataset.expanded = 'true';
+	} else if (dropdownPickerButton.dataset.state === 'inactive') {
+		dropdownWrapper.dataset.expanded = 'false';
+	}
+}
+
+var observer2 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				updateDropdownWrapperDataExpanded(mutation.target);
+			}
+		}
+	});
+});
+var observer3 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var dropdownWrapper = mutation.target.parentNode;
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-selected-button') {
+				dropdownWrapper.dataset.selectedOption = mutation.target.dataset.selectedButton;
+			}
+		}
+	});
+});
+var observer4 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var dropdownPickerButton = mutation.target.querySelector('button.dropdown-picker');
+		var dropdownOptionsMenuButtonGroup = mutation.target.querySelector('.wrapper.dropdown-options-menu');
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-expanded') {
+				if (mutation.target.dataset.expanded === 'true') {
+					dropdownOptionsMenuButtonGroup.dataset.visibility = 'visible';
+				} else if (mutation.target.dataset.expanded === 'false') {
+					dropdownOptionsMenuButtonGroup.dataset.visibility = 'hidden';
+				}
+			} else if (mutation.attributeName === 'data-selected-option') {
+				dropdownPickerButton.innerHTML = `${mutation.target.dataset.selectedOption}<span class="icon-expand-more"></span>`;
+			}
+		}
+	});
+});
+
+const dropdownWrappers = document.querySelectorAll('.wrapper.dropdown');
+dropdownWrappers.forEach((dropdownWrapper) => {
+	var dropdownPickerButton = dropdownWrapper.querySelector('button.dropdown-picker');
+	var dropdownOptionsMenuButtonGroup = dropdownWrapper.querySelector('.wrapper.dropdown-options-menu');
+
+	//	add data-state observer to dropdown-picker.button
+	//	updates dropdown.wrapper data-expanded
+	observer2.observe(dropdownPickerButton, {
+		attributes: true,
+	});
+
+	// 	add data-selected-button observer to dropdown-options-menu.button-group
+	//	updates dropdown.wrapper data-selected-option
+	observer3.observe(dropdownOptionsMenuButtonGroup, {
+		attributes: true,
+	});
+
+	// 	add data-expanded observer to dropdown.wrapper
+	//	updates dropdown-options-menu.button-group data-visibility
+	//
+	// 	add data-selected-option observer to dropdown.wrapper
+	//	updates dropdown-picker.button innerHTML
+	observer4.observe(dropdownWrapper, {
+		attributes: true,
+	});
+
+	updateDropdownWrapperDataExpanded(dropdownPickerButton);
+});
+
+function deactivateButton(button) {
+	if (button.dataset.state === 'active') {
+		button.dataset.state = 'inactive';
+	}
+}
+
+// deactivating appropraite dropdown-picker.buttons when clicking outside dropdown.button-groups
+const dropdownPickerButtons = document.querySelectorAll('button.dropdown-picker');
+document.addEventListener('click', (e) => {
+	var clickedElement = e.target;
+	var clickedDropdownOptionsMenu = clickedElement.matches('.wrapper.dropdown-options-menu');
+	var clickedDropdownPickerButton;
+	// if clicked element isn't an option-menu -> deactivate all pickers, unless it's the picker that was clicked
+	if (!clickedDropdownOptionsMenu) {
+		// clickedDropdownPickerButton will be reassigned if it was clicked
+		if (clickedElement.closest('button.dropdown-picker')) {
+			while (!clickedElement.classList.contains('dropdown-picker')) {
+				clickedElement = clickedElement.parentNode;
+			}
+			clickedDropdownPickerButton = clickedElement;
+		}
+
+		dropdownPickerButtons.forEach((dropdownPickerButton) => {
+			// deactivates all dropdownPickerButtons -> unless it's the one that was clicked
+			if (dropdownPickerButton !== clickedDropdownPickerButton) {
+				deactivateButton(dropdownPickerButton);
 			}
 		});
 	}
-	if (clickedDropdownOptionButton) {
-		currentDropdownOptionsMenu = clickedDropdownOptionButton.parentNode;
-		currentDropdownWrapper = currentDropdownOptionsMenu.parentNode;
-		closeDropdown(currentDropdownWrapper);
-
-		// updates the selected-option of the dropdown
-		currentDropdownWrapper.dataset.selectedOption = clickedDropdownOptionButton.dataset.option;
-		updateDropdownWrapper(currentDropdownWrapper);
-	}
 });
 
 //
 //
-// Inputs
+// direction-and-alignments
 
-const inputWrappers = document.querySelectorAll('.wrapper.input');
-inputWrappers.forEach((inputWrapper) => {
-	var input = inputWrapper.querySelector('input');
-	inputWrapper.addEventListener('mouseover', () => {
-		input.classList.remove('autoSize');
-		input.removeAttribute('style');
-	});
-	inputWrapper.addEventListener('mouseout', () => {
-		input.classList.add('autoSize');
-		onInputDelegate({ target: input });
-	});
-});
-
-//
-//
-// Direction Wrapper
-
-function updateDirectionButtonGroup(buttonGroup) {
-	let directionOptions = buttonGroup.querySelectorAll('button.direction');
-	directionOptions.forEach((directionOptionButton) => {
-		// sets the selected-option of the direction button-group
-		if (directionOptionButton.dataset.state === 'selected') {
-			let directionButtonGroup = directionOptionButton.parentNode;
-			directionButtonGroup.dataset.selectedOption = directionOptionButton.dataset.option;
+var observer5 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var dAAWrapper = mutation.target.parentNode;
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-selected-button') {
+				dAAWrapper.dataset.direction = mutation.target.dataset.selectedButton;
+			}
 		}
 	});
-}
-
-const directionWrappers = document.querySelectorAll('.wrapper.direction');
-directionWrappers.forEach((directionWrapper) => {
-	let directionOptions = directionWrapper.querySelectorAll('button.direction');
-
-	directionOptions.forEach((directionOptionButton) => {
-		directionOptionButton.addEventListener('click', () => {
-			updateDirectionButtonGroup(directionWrapper);
-		});
-	});
-
-	updateDirectionButtonGroup(directionWrapper);
 });
-
-//
-//
-// Alignment Wrapper
-
-function updateAlignmentButtonGroup(buttonGroup) {
-	let alignmentOptions = buttonGroup.querySelectorAll('button.alignment');
-	alignmentOptions.forEach((alignmentOptionButton) => {
-		// sets the selected-option of the alignment button-group
-		if (alignmentOptionButton.dataset.state === 'selected') {
-			let alignmentSelectedOption = `column-${alignmentOptionButton.dataset.column}, row-${alignmentOptionButton.dataset.row}`;
-			buttonGroup.dataset.selectedOption = alignmentSelectedOption;
+var observer6 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var alignmentButtons = mutation.target.querySelectorAll('button.alignment');
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-direction') {
+				alignmentButtons.forEach((alignmentButton) => {
+					alignmentButton.dataset.direction = mutation.target.dataset.direction;
+				});
+			}
 		}
 	});
-}
+});
+
+const directionAndAlignmentWrappers = document.querySelectorAll('.wrapper.direction-and-alignment');
+directionAndAlignmentWrappers.forEach((directionAndAlignmentWrapper) => {
+	var dAAWrapper = directionAndAlignmentWrapper;
+	var directionButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.direction');
+
+	// add data-selected-button observer to direction.button-group
+	// updates direction-and-alignment.wrapper data-direction
+	observer5.observe(directionButtonGroup, {
+		attributes: true,
+	});
+
+	// add data-direction observer to direction-and-alignment.wrapper
+	// updates alignment.buttons data-direction
+	observer6.observe(dAAWrapper, {
+		attributes: true,
+	});
+});
+
+const iconHtml = {
+	'h-left': '<span class="icon-alignment-horizontal-left"></span><span class="icon-circle-small"></span>',
+	'h-center': '<span class="icon-alignment-horizontal-center"></span><span class="icon-circle-small"></span>',
+	'h-right': '<span class="icon-alignment-horizontal-right"></span><span class="icon-circle-small"></span>',
+	'h-left-r': '<span class="icon-alignment-horizontal-left-reverse"></span><span class="icon-circle-small"></span>',
+	'h-center-r': '<span class="icon-alignment-horizontal-center-reverse"></span><span class="icon-circle-small"></span>',
+	'h-right-r': '<span class="icon-alignment-horizontal-right-reverse"></span><span class="icon-circle-small"></span>',
+	'v-top': '<span class="icon-alignment-vertical-top"></span><span class="icon-circle-small"></span>',
+	'v-center': '<span class="icon-alignment-vertical-center"></span><span class="icon-circle-small"></span>',
+	'v-bottom': '<span class="icon-alignment-vertical-bottom"></span><span class="icon-circle-small"></span>',
+	'v-top-r': '<span class="icon-alignment-vertical-top-reverse"></span><span class="icon-circle-small"></span>',
+	'v-center-r': '<span class="icon-alignment-vertical-center-reverse"></span><span class="icon-circle-small"></span>',
+	'v-bottom-r': '<span class="icon-alignment-vertical-bottom-reverse"></span><span class="icon-circle-small"></span>',
+};
+
+var observer7 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-direction') {
+				if (mutation.target.dataset.direction === 'column') {
+					if (mutation.target.dataset.column === '1') {
+						mutation.target.innerHTML = iconHtml['h-left'];
+					} else if (mutation.target.dataset.column === '2') {
+						mutation.target.innerHTML = iconHtml['h-center'];
+					} else if (mutation.target.dataset.column === '3') {
+						mutation.target.innerHTML = iconHtml['h-right'];
+					}
+				} else if (mutation.target.dataset.direction === 'row') {
+					if (mutation.target.dataset.row === '1') {
+						mutation.target.innerHTML = iconHtml['v-top'];
+					} else if (mutation.target.dataset.row === '2') {
+						mutation.target.innerHTML = iconHtml['v-center'];
+					} else if (mutation.target.dataset.row === '3') {
+						mutation.target.innerHTML = iconHtml['v-bottom'];
+					}
+				} else if (mutation.target.dataset.direction === 'column-reverse') {
+					if (mutation.target.dataset.column === '1') {
+						mutation.target.innerHTML = iconHtml['h-left-r'];
+					} else if (mutation.target.dataset.column === '2') {
+						mutation.target.innerHTML = iconHtml['h-center-r'];
+					} else if (mutation.target.dataset.column === '3') {
+						mutation.target.innerHTML = iconHtml['h-right-r'];
+					}
+				} else if (mutation.target.dataset.direction === 'row-reverse') {
+					if (mutation.target.dataset.row === '1') {
+						mutation.target.innerHTML = iconHtml['v-top-r'];
+					} else if (mutation.target.dataset.row === '2') {
+						mutation.target.innerHTML = iconHtml['v-center-r'];
+					} else if (mutation.target.dataset.row === '3') {
+						mutation.target.innerHTML = iconHtml['v-bottom-r'];
+					}
+				}
+			}
+		}
+	});
+});
 
 const alignmentWrappers = document.querySelectorAll('.wrapper.alignment');
 alignmentWrappers.forEach((alignmentWrapper) => {
-	var alignmentOptions = alignmentWrapper.querySelectorAll('button.alignment');
-	let columnIndex = 0;
-	let rowIndex = 0;
-	alignmentOptions.forEach((alignmentOptionButton, index) => {
+	var alignmentButtons = alignmentWrapper.querySelectorAll('button.alignment');
+	var columnIndex = 0;
+	var rowIndex = 0;
+
+	alignmentButtons.forEach((alignmentButton, index) => {
 		columnIndex = (index % 3) + 1;
 		if (index % 3 == 0) {
 			rowIndex++;
 		}
-		alignmentOptionButton.dataset.column = columnIndex;
-		alignmentOptionButton.dataset.row = rowIndex;
+		alignmentButton.dataset.column = columnIndex;
+		alignmentButton.dataset.row = rowIndex;
 
-		alignmentOptionButton.addEventListener('click', () => {
-			updateAlignmentButtonGroup(alignmentWrapper);
+		// add data-direction observer to alignment.buttons
+		// updates alignment.buttons innerHTML
+		observer7.observe(alignmentButton, {
+			attributes: true,
 		});
 	});
-	updateAlignmentButtonGroup(alignmentWrapper);
 });
 
 //
 //
-// Alignment Buttons
+// submenus.buttons + submenus
 
-const alignmentButtons = document.querySelectorAll('button.alignment');
-alignmentButtons.forEach((alignmentButton) => {
-	alignmentButton.addEventListener('mouseover', () => {
-		if (!alignmentButton.dataset.state) {
-			alignmentButton.dataset.state = 'hovering';
+// submenus
+var observer10 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				var submenuWrapper = mutation.target.parentNode.parentNode;
+				if (mutation.target.dataset.state === 'active') {
+					submenuWrapper.dataset.expanded = 'true';
+				} else if (mutation.target.dataset.state === 'inactive') {
+					submenuWrapper.dataset.expanded = 'false';
+				}
+			}
 		}
 	});
-	alignmentButton.addEventListener('mouseout', () => {
-		if (alignmentButton.dataset.state === 'hovering') {
-			alignmentButton.removeAttribute('data-state');
+});
+var observer11 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var submenuContentWrapper = mutation.target.querySelector('.wrapper.submenu-content');
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-expanded') {
+				if (mutation.target.dataset.expanded === 'true') {
+					submenuContentWrapper.dataset.visibility = 'visible';
+				} else if (mutation.target.dataset.expanded === 'false') {
+					submenuContentWrapper.dataset.visibility = 'hidden';
+				}
+			}
 		}
 	});
-
-	// alignmentButton.innerHTML = '<span class="icon-circle-small"></span>';
 });
 
-//
-//
-// Direction and Alignment
+const submenuWrappers = document.querySelectorAll('.wrapper.submenu');
+submenuWrappers.forEach((submenuWrapper) => {
+	submenuArrowButton = submenuWrapper.querySelector('button.submenu-arrow');
+	submenuContentWrapper = submenuWrapper.querySelector('.wrapper.submenu-content');
 
-function updateDAAWrapper(dAAWrapper) {
-	var directionWrapper = dAAWrapper.querySelector('.wrapper.direction');
-	dAAWrapper.dataset.direction = directionWrapper.dataset.selectedOption;
-	var alignmentWrapper = dAAWrapper.querySelector('.wrapper.alignment');
-	dAAWrapper.dataset.alignment = alignmentWrapper.dataset.selectedOption;
-
-	updateAlignmentOptionButtonIcon(dAAWrapper);
-}
-
-function updateAlignmentOptionButtonIcon(dAAWrapper) {
-	var alignmentOptions = dAAWrapper.querySelectorAll('button.alignment');
-	var iconHtml = {
-		'h-left': '<span class="icon-alignment-horizontal-left"></span><span class="icon-circle-small"></span>',
-		'h-center': '<span class="icon-alignment-horizontal-center"></span><span class="icon-circle-small"></span>',
-		'h-right': '<span class="icon-alignment-horizontal-right"></span><span class="icon-circle-small"></span>',
-		'h-left-r': '<span class="icon-alignment-horizontal-left-reverse"></span><span class="icon-circle-small"></span>',
-		'h-center-r': '<span class="icon-alignment-horizontal-center-reverse"></span><span class="icon-circle-small"></span>',
-		'h-right-r': '<span class="icon-alignment-horizontal-right-reverse"></span><span class="icon-circle-small"></span>',
-		'v-top': '<span class="icon-alignment-vertical-top"></span><span class="icon-circle-small"></span>',
-		'v-center': '<span class="icon-alignment-vertical-center"></span><span class="icon-circle-small"></span>',
-		'v-bottom': '<span class="icon-alignment-vertical-bottom"></span><span class="icon-circle-small"></span>',
-		'v-top-r': '<span class="icon-alignment-vertical-top-reverse"></span><span class="icon-circle-small"></span>',
-		'v-center-r': '<span class="icon-alignment-vertical-center-reverse"></span><span class="icon-circle-small"></span>',
-		'v-bottom-r': '<span class="icon-alignment-vertical-bottom-reverse"></span><span class="icon-circle-small"></span>',
-	};
-
-	alignmentOptions.forEach((alignmentButton) => {
-		// alignmentButton.innerHTML = '<span class="icon-circle-small"></span>';
-		if (dAAWrapper.dataset.direction === 'column') {
-			if (alignmentButton.dataset.column === '1') {
-				alignmentButton.innerHTML = iconHtml['h-left'];
-			} else if (alignmentButton.dataset.column === '2') {
-				alignmentButton.innerHTML = iconHtml['h-center'];
-			} else if (alignmentButton.dataset.column === '3') {
-				alignmentButton.innerHTML = iconHtml['h-right'];
-			}
-		} else if (dAAWrapper.dataset.direction === 'row') {
-			if (alignmentButton.dataset.row === '1') {
-				alignmentButton.innerHTML = iconHtml['v-top'];
-			} else if (alignmentButton.dataset.row === '2') {
-				alignmentButton.innerHTML = iconHtml['v-center'];
-			} else if (alignmentButton.dataset.row === '3') {
-				alignmentButton.innerHTML = iconHtml['v-bottom'];
-			}
-		} else if (dAAWrapper.dataset.direction === 'column-reverse') {
-			if (alignmentButton.dataset.column === '1') {
-				alignmentButton.innerHTML = iconHtml['h-left-r'];
-			} else if (alignmentButton.dataset.column === '2') {
-				alignmentButton.innerHTML = iconHtml['h-center-r'];
-			} else if (alignmentButton.dataset.column === '3') {
-				alignmentButton.innerHTML = iconHtml['h-right-r'];
-			}
-		} else if (dAAWrapper.dataset.direction === 'row-reverse') {
-			if (alignmentButton.dataset.row === '1') {
-				alignmentButton.innerHTML = iconHtml['v-top-r'];
-			} else if (alignmentButton.dataset.row === '2') {
-				alignmentButton.innerHTML = iconHtml['v-center-r'];
-			} else if (alignmentButton.dataset.row === '3') {
-				alignmentButton.innerHTML = iconHtml['v-bottom-r'];
-			}
-		}
+	//	add data-state observer to submenu-arrow.button
+	//	updates submenu.wrapper data-expanded
+	observer10.observe(submenuArrowButton, {
+		attributes: true,
 	});
-}
 
-const directionAndAlignmentWrappers = document.querySelectorAll('.wrapper.direction-and-alignment');
-directionAndAlignmentWrappers.forEach((dAAWrapper) => {
-	var directionOptions = dAAWrapper.querySelectorAll('button.direction');
-	directionOptions.forEach((directionOptionButton) => {
-		directionOptionButton.addEventListener('click', () => {
-			updateDAAWrapper(dAAWrapper);
-
-			// update direction of alignment icons
-		});
+	// 	add data-expanded observer to submenu.wrapper
+	//	updates submenu-content.button-group data-visibility
+	observer11.observe(submenuWrapper, {
+		attributes: true,
 	});
-	var alignmentOptions = dAAWrapper.querySelectorAll('button.alignment');
-	alignmentOptions.forEach((alignmentOptionButton) => {
-		alignmentOptionButton.addEventListener('click', () => {
-			updateDAAWrapper(dAAWrapper);
-		});
-	});
-	updateDAAWrapper(dAAWrapper);
-});
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var getInputValueWidth = (function () {
-	// https://stackoverflow.com/a/49982135/104380
-	function copyNodeStyle(sourceNode, targetNode) {
-		var computedStyle = window.getComputedStyle(sourceNode);
-		Array.from(computedStyle).forEach((key) => targetNode.style.setProperty(key, computedStyle.getPropertyValue(key), computedStyle.getPropertyPriority(key)));
+	if (submenuArrowButton.dataset.state === 'active') {
+		submenuWrapper.dataset.expanded = 'true';
+	} else if (submenuArrowButton.dataset.state === 'inactive') {
+		submenuWrapper.dataset.expanded = 'false';
 	}
+});
 
-	function createInputMeassureElm(inputelm) {
-		// create a dummy input element for measurements
-		var meassureElm = document.createElement('span');
-		// copy the read input's styles to the dummy input
-		copyNodeStyle(inputelm, meassureElm);
+//
+//
+// voice-state-selection-specifity
 
-		// set hard-coded styles needed for propper meassuring
-		meassureElm.style.width = 'auto';
-		meassureElm.style.position = 'absolute';
-		meassureElm.style.left = '-9999px';
-		meassureElm.style.top = '-9999px';
-		meassureElm.style.whiteSpace = 'pre';
+var observer12 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				var voiceStateSelectionIdsListWrapper = mutation.target.previousSibling.previousSibling;
 
-		meassureElm.textContent = inputelm.value || '';
+				if (mutation.target.dataset.state === 'active') {
+					voiceStateSelectionIdsListWrapper.insertAdjacentHTML(
+						'beforeend',
+						`
+					<div class="wrapper voice-state-selection-id">
+						<div class="wrapper input">
+							<div class="wrapper prefix">Discord User ID</div>
+							<input type="text" value="1234" />
+							<div class="wrapper suffix"></div>
+						</div>
+						<button>icon-square-cropped, submenu, visibility"</button>
+						<button>icon-delete, submenu</button>
+					</div>`
+					);
+					mutation.target.dataset.state = 'inactive';
+				}
+				// makes sure added buttons have their data set
+				setButtonData();
+			}
+		}
+	});
+});
 
-		// add the meassure element to the body
-		document.body.appendChild(meassureElm);
+const voiceStateSelectionSpecifityWrappers = document.querySelectorAll('.wrapper.voice-state-selection-specifity');
+voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrapper) => {
+	var addElementButton = voiceStateSelectionSpecifityWrapper.querySelector('button.add-element');
+	var voiceStateSelectionIdsListWrapper = voiceStateSelectionSpecifityWrapper.querySelector('.wrapper.voice-state-selection-ids-list');
 
-		return meassureElm;
-	}
-
-	return function () {
-		return createInputMeassureElm(this).offsetWidth;
-	};
-})();
-
-// delegated event binding
-document.body.addEventListener('input', onInputDelegate);
-
-function onInputDelegate(e) {
-	if (e.target.classList.contains('autoSize')) e.target.style.width = getInputValueWidth.call(e.target) + 'px';
-}
-
-const inputs = document.querySelectorAll('input');
-inputs.forEach((input) => {
-	input.classList.add('autoSize');
-	onInputDelegate({ target: input });
+	//	add data-state observer to add-element.button
+	//	updates voice-state-selection-ids-list.wrapper -> adds a voice-state-selection-id.wrapper to the list
+	observer12.observe(addElementButton, {
+		attributes: true,
+	});
 });

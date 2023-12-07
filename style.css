@@ -64,8 +64,9 @@ html {
 	--width5: 20rem;
 	/* height */
 	--height1: 0.75rem;
-	--height2: 1.5rem;
-	--height3: 2rem;
+	--height2: 1rem;
+	--height3: 1.5rem;
+	--height4: 2rem;
 	/* font-size */
 	--font-size1: 0.6875rem;
 	--font-size2: 0.75rem;
@@ -102,7 +103,9 @@ input {
 	background-color: var(--bg-primary);
 
 	width: 100%;
-	height: var(--height2);
+	height: var(--height3);
+
+	text-overflow: ellipsis;
 }
 
 /* 
@@ -111,9 +114,9 @@ input {
 
 /* button { */
 button {
-	/* default button is a button with only text, other variations should have class-associated styles to it (i.e. icon/dropdown/dropdown.picker) */
+	/* default button is a button with only text, other variations should have class-associated styles to it (i.e. icon/dropdown/dropdown-picker) */
 	background-color: var(--bg-primary);
-	height: var(--height2);
+	height: var(--height3);
 	padding: 0 var(--padding2);
 	gap: var(--gap2);
 	border-radius: var(--radius2);
@@ -122,50 +125,58 @@ button {
 	justify-content: center;
 	align-items: center;
 
+	white-space: nowrap;
+
 	/* These are the icon buttons, more uncommon */
 	&.icon {
 		width: var(--width3);
+		padding: var(--padding0);
 	}
 
-	&.dropdown {
+	&.dropdown-picker {
+		justify-content: left;
+		& span[class^='icon-'] {
+			color: var(--text-secondary);
+		}
+
+		/*  */
+		width: 100%;
+	}
+	&.dropdown-option {
+		background-color: var(--bg-tertiary);
+		border-radius: var(--radius0);
+
 		justify-content: left;
 
-		&.dropdown.picker {
-			& span[class^='icon-'] {
-				color: var(--text-secondary);
-			}
-
-			/*  */
-			width: 100%;
-		}
-		&.dropdown.option {
-			background-color: var(--bg-tertiary);
-			border-radius: var(--radius0);
-
-			& span[class^='icon-'] {
-				visibility: hidden;
-			}
+		& span[class^='icon-'] {
+			visibility: hidden;
 		}
 	}
 }
 button:hover {
-	&.dropdown.picker {
+	&.dropdown-option {
+		background-color: var(--focus-bg-primary) !important;
+	}
+}
+button:hover,
+button[data-state='active'] {
+	&.dropdown-picker {
 		justify-content: space-between;
 
 		& span[class^='icon-'] {
 			color: var(--text-primary);
 		}
 	}
-	&.dropdown.option {
-		background-color: var(--focus-bg-primary);
-	}
 }
-button[data-state='selected'] {
+button[data-state='active'] {
 	background-color: var(--bg-secondary);
 	background-color: yellow;
 
-	&.dropdown.option span[class^='icon-'] {
+	&.dropdown-option span[class^='icon-'] {
 		visibility: visible;
+	}
+	&.dropdown-option {
+		background-color: var(--bg-tertiary);
 	}
 }
 
@@ -173,17 +184,20 @@ button[data-state='selected'] {
 outline
 */
 
-button.dropdown.picker:hover,
+button.dropdown-picker:hover,
 .wrapper.button-group:hover,
 .wrapper.input:hover,
-.wrapper.alignment {
+.wrapper.alignment,
+button.checkbox,
+button.add-element:hover {
 	outline: var(--stroke2) solid var(--bg-secondary);
 	outline: var(--stroke2) solid yellow;
 	outline-offset: calc(-1 * var(--stroke2));
 }
 
 .wrapper.dropdown-options-menu:hover,
-.wrapper.input:hover .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+.wrapper.input:hover .wrapper.suffix .wrapper.dropdown button.dropdown-picker,
+button.checkbox[data-state='active'] {
 	outline: none;
 }
 
@@ -191,7 +205,7 @@ button.dropdown.picker:hover,
 base wrapper class
 */
 
-.wrapper {
+.wrapper.button-group {
 	background-color: var(--bg-primary);
 	width: fit-content;
 	height: fit-content;
@@ -204,12 +218,6 @@ base wrapper class
 		grid-row: 1;
 	}
 }
-.wrapper[data-visibility='visible'] {
-	display: grid;
-}
-.wrapper[data-visibility='hidden'] {
-	display: none;
-}
 
 /* 
 dropdown-options-menu wrapper
@@ -219,11 +227,18 @@ dropdown-options-menu wrapper
 	background-color: var(--bg-tertiary);
 	padding: var(--padding1) 0;
 
+	/*  */
+	position: absolute;
+
 	& button {
 		grid-row: initial;
 	}
-
-	position: absolute;
+}
+.wrapper.dropdown-options-menu[data-visibility='visible'] {
+	display: grid;
+}
+.wrapper.dropdown-options-menu[data-visibility='hidden'] {
+	display: none;
 }
 
 /* 
@@ -231,8 +246,10 @@ input wrapper
 */
 
 .wrapper.input {
+	background-color: var(--bg-primary);
 	width: 100%;
-	height: var(--height2);
+	height: var(--height3);
+	border-radius: var(--radius2);
 
 	display: flex;
 	align-items: center;
@@ -244,8 +261,11 @@ input wrapper
 
 	& .wrapper.prefix {
 		padding: 0 var(--padding1);
+
+		display: flex;
+		align-items: center;
 	}
-	& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
+	& .wrapper.suffix .wrapper.dropdown button.dropdown-picker {
 		color: var(--text-secondary);
 		padding: 0 var(--padding1);
 		gap: var(--gap0);
@@ -254,12 +274,12 @@ input wrapper
 		}
 	}
 }
-.wrapper.input:hover {
-	& .wrapper.suffix .wrapper.dropdown button.dropdown.picker {
-		color: var(--text-primary);
-		& span[class^='icon-'] {
-			display: initial;
-		}
+
+.wrapper.input:hover .wrapper.suffix .wrapper.dropdown button.dropdown-picker,
+.wrapper.input .wrapper.suffix .wrapper.dropdown button.dropdown-picker[data-state='active'] {
+	color: var(--text-primary);
+	& span[class^='icon-'] {
+		display: initial;
 	}
 }
 
@@ -291,7 +311,11 @@ alignment wrapper
 			border-bottom-right-radius: var(--radius2);
 		}
 
-		& span[class^='icon-circle-small'] {
+		& span[class^='icon-'] {
+			color: var(--text-secondary);
+			font-size: 1rem;
+		}
+		& span[class='icon-circle-small'] {
 			display: block;
 		}
 		& span[class^='icon-alignment'] {
@@ -303,21 +327,21 @@ alignment wrapper
 			color: var(--solarised-text-secondary);
 		}
 
-		& span[class^='icon-circle-small'] {
+		& span[class='icon-circle-small'] {
 			display: none;
 		}
 		& span[class^='icon-alignment'] {
 			display: block;
 		}
 	}
-	& button[data-state='selected'] {
+	& button[data-state='active'] {
 		background-color: initial;
 
 		& span[class^='icon-'] {
 			color: var(--solarised-text-primary);
 		}
 
-		& span[class^='icon-circle-small'] {
+		& span[class='icon-circle-small'] {
 			display: none;
 		}
 		& span[class^='icon-alignment'] {
@@ -327,9 +351,131 @@ alignment wrapper
 }
 
 .wrapper.direction-and-alignment {
-	border-radius: var(--radius0);
+	background-color: var(--bg-primary);
+	background-color: green;
+	width: fit-content;
 	gap: var(--gap1);
 
+	display: flex;
+	flex-direction: column;
+}
+
+/* 
+submenu wrapper
+*/
+
+.wrapper.submenu-header {
+	background-color: var(--bg-primary);
+	height: var(--height4);
+
+	display: inline-flex;
+	align-items: center;
+
+	width: 100%;
+}
+
+button.submenu {
+	width: 1rem;
+	height: 100%;
+	border-radius: var(--radius0);
+
+	flex-shrink: 0;
+
 	/*  */
+	/* background-color: initial; */
+}
+
+.wrapper.submenu-content {
+	background-color: var(--bg-primary);
+	min-height: var(--height4);
+	padding-left: var(--padding3);
+
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+
+	/* align-items: center; */
+	/* justify-content: start; */
+
+	width: 100%;
+}
+.wrapper.submenu-content[data-visibility='visible'] {
+	display: flex;
+}
+.wrapper.submenu-content[data-visibility='hidden'] {
+	display: none;
+}
+
+button.checkbox {
+	background-color: initial;
+	width: var(--width2);
+	height: var(--height2);
+	padding: var(--padding0);
+
+	flex-shrink: 0;
+
+	& span[class^='icon-'] {
+		display: none;
+	}
+}
+button.checkbox[data-state='active'] {
+	background-color: var(--focus-bg-primary);
+	& span[class^='icon-'] {
+		display: initial;
+	}
+}
+
+/* 
+voice-state-selection wrapper
+*/
+
+.wrapper.voice-state-selection,
+.wrapper.voice-state-selection-id {
+	background-color: var(--bg-primary);
+	height: var(--height4);
+
+	display: flex;
+	align-items: center;
+
+	& .wrapper.dropdown,
+	& .wrapper.input {
+		min-width: 0;
+	}
+
+	& > * {
+		margin-right: var(--gap1);
+	}
+	& > :nth-last-child(-n + 2) {
+		margin-right: initial;
+	}
+
+	width: 100%;
+}
+
+.wrapper.voice-state-selection {
+	min-width: fit-content;
+
+	& .wrapper.dropdown {
+		flex-grow: 1;
+	}
+}
+
+.wrapper.submenu-header {
+	width: 100%;
+	min-width: fit-content;
+}
+.wrapper.submenu-header-content {
+	width: 100%;
+}
+
+.wrapper.submenu {
+	width: 100%;
+	min-width: fit-content;
+}
+
+.wrapper.voice-state-selection-specifity {
+	width: 100%;
+
+	/* probably remove this later, just to easy viewing */
 	background-color: green;
 }
