@@ -1,0 +1,61 @@
+body {
+	/* font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; */
+	background-color: transparent;
+	margin: 0;
+}
+
+/* .voiceContainer { */
+div[class~='voice_container'] {
+	font-family: gg sans;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+	color: white;
+}
+
+/* .voiceStates { */
+ul[class~='voice_states'] {
+	list-style-type: none;
+	padding-left: 15px;
+}
+
+/* .voiceState { */
+li[class~='voice_state'] {
+	height: 50px;
+	margin-bottom: 8px;
+}
+
+/* .avatar { */
+li[class~='voice_state'] img[class*='avatar'] {
+	height: 50px;
+	width: 50px;
+	border: 3px solid transparent;
+	border-radius: 50%;
+	float: left;
+	margin-right: 8px;
+}
+
+/* .avatarSpeaking { */
+li[class~='voice_state'][class*='speaking'] img[class*='avatar'] {
+	border-color: #3ba53b;
+}
+
+/* .user { */
+li[class~='voice_state'] div[class*='username'] {
+	padding-top: 18px;
+}
+
+/* .name { */
+li[class~='voice_state'] span[class*='name'] {
+	font-size: 14px;
+	background-color: rgba(30, 33, 36, 0.95);
+	border-radius: 3px;
+	padding: 4px 6px;
+}
+
+/* 
+.smallAvatarAvatar {
+	height: 40px;
+	width: 40px;
+}
+*/

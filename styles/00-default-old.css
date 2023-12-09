@@ -1,0 +1,399 @@
+/* 
+		tutorial	https://youtu.be/Cg-1kW6EPvk
+
+		credit		@argoV2
+		author		@argoV2 - https://linkfly.to/argo20k
+		version		2.1-2023.10.24
+		compatible	chromium-93-justifycontent-2021.08.31
+*/
+
+:root {
+	/* background-color: grey; */
+	--green: #2ecc71;
+	--red: #ed4245;
+	--yellow: #fdcb58;
+	--purple: #aa8ed6;
+	--grey_dark: #1e2124;
+	--green_dark: #3ba53b;
+	--grey_dark_transparent: rgba(30, 33, 36, 0.95);
+	--green_transparent: rgba(46, 204, 113, 0.95);
+
+	/* 		voice states */
+	--voicestates_vertical_align: start; /* done - base - radio - start - [center, end] */
+	--voicestates_horizontal_align: left; /* done - base - radio - left - [center, right] */
+	--voicestates_arrangement: column; /* done - base - column - row */
+	--voicestates_margin_top: 1em;
+	--voicestates_margin_bottom: calc(1em * 3 / 7);
+	--voicestates_margin_left: 1em;
+	--voicestates_margin_right: -0.5em;
+
+	/* 		voice state */
+	--voicestate_arrangement: row; /* done - base - row - column */
+	/* 	--voicestate_display: flex; */ /* checkbox - show all voice states */
+	/* 	--voicestate_display: none; */ /* checkbox - hide all voice states */
+	--voicestate_margin_bottom: calc(1em * 4 / 7);
+	--voicestate_margin_right: 1em;
+	/* 	--voicestate_content_order: 0; */ /* checkbox - avatar -> username order */
+	/* 	--voicestate_content_order: 1; */ /* checkbox - username -> avatar order */
+	/* 	--voicestate_not_speaking_display: flex; */ /* checkbox - disable show speaking voice states only */
+	/* 	--voicestate_not_speaking_display: none; */ /* checkbox - enable show speaking voice states only */
+
+	/* 		avatar */
+	--avatar_border_width: calc(var(--calculated_avatar_height_width) * 0.075);
+	--avatar_border_color: rgba(0, 0, 0, 0); /* done - mod - rgba(0, 0, 0, 0) - #aa8ed6 */
+	--avatar_speaking_border_color: rgba(46, 204, 113, 0.95); /* done - mod - inherited - [rgba(46, 204, 113, 0.95), var(--inherited_avatar_border_color)] - #fdcb58 */
+	--avatar_border_radius: 50%;
+	--avatar_height: 50px;
+	--avatar_width: 50px;
+	--avatar_content: normal; /* done - mod - normal - url('https://cdn.discordapp.com/embed/avatars/1.png') */
+	--avatar_speaking_content: normal; /* done - mod - [normal, var(--inherited_avatar_content)] - url('https://cdn.discordapp.com/embed/avatars/4.png') */
+	--avatar_display: block; /* done - mod - block - none */
+
+	/* 		username */
+	--name_display: block; /* updating - mod - block - none */
+	--username_background_color: rgba(30, 33, 36, 0.95);
+	/* 	--username_speaking_background_color: var(--inherited_username_background_color); */ /* checkbox - disable speaking colour */
+	/* 	--username_speaking_background_color: rgba(46, 204, 113, 0.95); */ /* checkbox - enable speaking colour */
+	--username_border_radius: calc(1em * 3 / 14);
+	--username_color: #fff;
+	--username_font: gg sans;
+	--username_font: Segoe UI;
+	--username_font_size: 14px; /* done - base - 14px */
+	--username_font_weight: 600;
+	--username_line_height: calc(93 / 70);
+	--username_box_max_width: none; /* done - mod - none - 100px */
+	--username_box_width: auto; /* done - mod - auto - 100px */
+	--username_margin_top: 0em;
+	--username_margin_bottom: 0em;
+	--username_margin_left: calc(1em * 8 / 14);
+	--username_margin_right: calc(1em * 8 / 14);
+	/* 	--username_text_overflow_style: ellipsis; */ /* checkbox - enable ellipsis overflow */
+	/* 	--username_text_overflow_style: clip; */ /* checkbox - disable ellipsis overflow */
+
+	/* 		recommended not to change */
+	--calculated_avatar_height_width: var(--avatar_width, var(--avatar_height, 50px));
+
+	--inherited_voicestates_horizontal_align: var(--voicestates_horizontal_align, left);
+	--inherited_avatar_border_color: var(--avatar_border_color, rgba(0, 0, 0, 0));
+	--inherited_avatar_content: var(--avatar_content, normal);
+	--inherited_username_background_color: var(--username_background_color, rgba(30, 33, 36, 0.95));
+	--inherited_username_box_max_width: var(--username_box_max_width, initial);
+	--inherited_username_box_width: var(--username_box_width, initial);
+	--inherited_username_margin_right: var(--username_margin_right, calc(8 / 14 * 1em));
+	--inherited_username_vertical_padding: var(--calculated_username_vertical_padding, calc(1em * 2 / 7));
+	overflow: hidden;
+
+	/* 		nickname mod */
+	/* 	--username_display: block; */
+	/* 	--username_nickname_display: none; */
+	/*  */
+	/* --username_display: none; */
+	/* --username_nickname_display: block; */
+	/* --username_nickname_text: 'CUSTOM_NICKNAME'; */
+
+	/* 		icon mod */
+	/* 	--icon_display: none; */
+	/*  */
+	/* --icon_display: block; */
+
+	/* 		filter mod */
+	/* --voicestate_filter: opacity(50%); */
+	/* --voicestate_speaking_filter: opacity(100%); */
+	/* --avatar_filter: opacity(50%); */
+	/* --avatar_speaking_filter: opacity(100%); */
+	/* --username_filter: opacity(50%); */
+	/* --username_speaking_filter: opacity(100%); */
+	/* --icon_filter: opacity(50%); */
+	/* --icon_speaking_filter: opacity(100%); */
+
+	/* 		custom border mod */
+	/* 	--avatar_content: normal; */ /* default option */
+	/* 	--avatar_speaking_content: normal; */ /* default option */
+	/*  */
+	/* --avatar_content: url('https://i.imgur.com/oBV3r9L.png'); */
+	/* --avatar_speaking_content: url('https://i.imgur.com/lb8LA0u.png'); */
+	/* --custom_avatar_border_color: #aa8ed6; */
+	/* --custom_avatar_speaking_border_color: #fdcb58; */
+	/* --avatar_border_radius: 0; */
+	/* --avatar_border_color: rgba(0, 0, 0, 0); */
+	/* --avatar_speaking_border_color: rgba(0, 0, 0, 0); */
+	/* --avatar_filter: drop-shadow(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) 0 0 var(--custom_avatar_border_color, rgba(0, 0, 0, 0))) drop-shadow(0 var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) 0 var(--custom_avatar_border_color, rgba(0, 0, 0, 0))) */
+	/* drop-shadow(calc(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) * -1) 0 0 var(--custom_avatar_border_color, rgba(0, 0, 0, 0))) */
+	/* drop-shadow(0 calc(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) * -1) 0 var(--custom_avatar_border_color, rgba(0, 0, 0, 0))); */
+	/* --avatar_speaking_filter: drop-shadow(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) 0 0 var(--custom_avatar_speaking_border_color, var(--inherited_custom_avatar_border_color))) */
+	/* drop-shadow(0 var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) 0 var(--custom_avatar_speaking_border_color, var(--inherited_custom_avatar_border_color))) */
+	/* drop-shadow(calc(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) * -1) 0 0 var(--custom_avatar_speaking_border_color, var(--inherited_custom_avatar_border_color))) */
+	/* drop-shadow(0 calc(var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075)) * -1) 0 var(--custom_avatar_speaking_border_color, var(--inherited_custom_avatar_border_color))); */
+}
+
+:root {
+	/* 		nickname mod */
+	--inherited_username_horizontal_padding: var(--calculated_username_horizontal_padding, calc(1em * 3 / 7));
+	--inherited_username_border_radius: var(--username_border_radius, calc(1em * 3 / 14));
+	--inherited_username_color: var(--username_color, #fff);
+	--inherited_username_max_width: var(--calculated_username_max_width);
+	--inherited_username_width: var(--calculated_username_width);
+	--inherited_username_margin_top: var(--username_margin_top, 0em);
+	--inherited_username_margin_bottom: var(--username_margin_bottom, 0em);
+	--inherited_username_margin_left: var(--username_margin_left, calc(8 / 14 * 1em));
+	--inherited_username_text_overflow_style: var(--username_text_overflow_style, ellipsis);
+	--calculated_username_vertical_padding: calc(1em * 2 / 7);
+	--calculated_username_horizontal_padding: calc(1em * 3 / 7);
+	--calculated_username_max_width: calc(var(--inherited_username_box_max_width) - var(--calculated_username_horizontal_padding) * 2);
+	--calculated_username_width: calc(var(--inherited_username_box_width) - var(--calculated_username_horizontal_padding) * 2);
+
+	/* 		icon mod */
+	--icon_mute_image: url('https://i.imgur.com/N41639K.png');
+	--icon_servermute_image: url('https://i.imgur.com/dGLktVK.png');
+	--icon_serverdeaf_image: url('https://i.imgur.com/PIzZueQ.png');
+	--icon_mute_deaf_image: url('https://i.imgur.com/MuYZsfA.png');
+	--icon_mute_serverdeaf_image: url('https://i.imgur.com/ahiYmuD.png');
+	--icon_servermute_deaf_image: url('https://i.imgur.com/B75U9Qo.png');
+	--icon_servermute_serverdeaf_image: url('https://i.imgur.com/cNJoKKP.png');
+	--inherited_username_line_height: var(--username_line_height, calc(93 / 70));
+	--calculated_username_box_height: calc(var(--inherited_username_line_height) * 1em + var(--inherited_username_vertical_padding) * 2);
+
+	/* 		custom bordermod */
+	--inherited_custom_avatar_border_color: var(--custom_avatar_border_color, rgba(0, 0, 0, 0));
+}
+
+div[class$='voice_container'] {
+	display: block;
+	font-family: gg sans;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 19px;
+
+	display: flex;
+	font-family: var(--username_font, gg sans);
+	font-size: var(--username_font_size, 14px);
+	font-weight: var(--username_font_weight, 600);
+	line-height: var(--username_line_height, calc(93 / 70));
+
+	align-items: var(--voicestates_vertical_align, start);
+	justify-content: var(--voicestates_horizontal_align, left);
+
+	/* 		recommended not to change */
+	height: 100vh;
+}
+
+ul[class$='voice_states'] {
+	display: block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-left: 15px;
+
+	display: flex;
+	margin-top: var(--voicestates_margin_top, 1em);
+	margin-bottom: var(--voicestates_margin_bottom, calc(1em * 3 / 7));
+	padding-left: 0;
+
+	flex-direction: var(--voicestates_arrangement, column);
+	margin-left: var(--voicestates_margin_left, 1em);
+	margin-right: var(--voicestates_margin_right, -0.5em);
+
+	/* 		recommended not to change */
+	flex-wrap: wrap;
+	height: fit-content;
+	justify-content: var(--inherited_voicestates_horizontal_align);
+}
+
+li[class$='voice_state'] {
+	display: list-item;
+	height: 50px;
+	margin-bottom: 8px;
+
+	display: var(--voicestate_display, flex);
+	height: fit-content;
+	margin-bottom: var(--voicestate_margin_bottom, calc(1em * 4 / 7));
+
+	filter: var(--voicestate_filter, none);
+	flex-direction: var(--voicestate_arrangement, row);
+	margin-right: var(--voicestate_margin_right, 1em);
+
+	/* 		recommended not to change */
+	align-items: center;
+}
+
+li[class$='voice_state'][class*='speaking'] {
+	filter: var(--voicestate_speaking_filter, none);
+}
+
+/* 		if and only if '--voicestate_display: none;' then '--voicestate_not_speaking_display: none;' */
+/* 		so if '' flex, then '' can be flex or none */
+/* 		but if '' none, then '' also has to be none */
+/* 		or else it would still show when they should be hidden with the '--voicestate_display' style */
+/*  	this check logic probably can't be done in pure CSS. instead when in generating CSS step in Streamkit website,  */
+/* 		do this check when determine the value of '--voicestate_not_speaking_display', when compared to '--voicestate_display' */
+li[class$='voice_state']:not([class*='speaking']) {
+	display: list-item;
+
+	display: var(--voicestate_not_speaking_display, flex);
+}
+
+li[class$='voice_state'] img[class$='avatar'] {
+	border: 3px solid rgba(0, 0, 0, 0);
+	border-radius: 50%;
+	display: block;
+	height: 50px;
+	width: 50px;
+	margin-right: 8px;
+
+	border-width: var(--avatar_border_width, calc(var(--calculated_avatar_height_width) * 0.075));
+	border-style: solid;
+	border-color: var(--avatar_border_color, rgba(0, 0, 0, 0));
+	border-radius: var(--avatar_border_radius, 50%);
+	display: var(--avatar_display, block);
+	height: var(--avatar_height, 50px);
+	width: var(--avatar_width, 50px);
+	margin-right: 0;
+
+	content: var(--avatar_content, normal);
+	filter: var(--avatar_filter, none);
+	order: var(--voicestate_content_order, 0);
+}
+
+li[class$='voice_state'][class*='speaking'] img[class$='avatar'] {
+	border-color: #3ba53b;
+
+	border-color: var(--avatar_speaking_border_color, var(--inherited_avatar_border_color));
+
+	content: var(--avatar_speaking_content, var(--inherited_avatar_content));
+	filter: var(--avatar_speaking_filter, none);
+}
+
+li[class$='voice_state'] div[class$='username'] {
+	display: block;
+	padding-top: 18px;
+
+	display: var(--name_display, block);
+	padding-top: 0;
+
+	filter: var(--username_filter, none);
+
+	/* 		recommended not to change */
+	white-space: nowrap;
+}
+
+li[class$='voice_state'][class*='speaking'] div[class$='username'] {
+	filter: var(--username_speaking_filter, none);
+}
+
+/* 		nickname mod */
+li[class$='voice_state'] div[class$='username']:before {
+	display: block;
+	padding-top: 18px;
+
+	display: var(--username_nickname_display, none);
+	padding: calc(var(--inherited_username_vertical_padding)) calc(var(--inherited_username_horizontal_padding));
+
+	background-color: var(--inherited_username_background_color);
+	border-radius: var(--inherited_username_border_radius);
+	color: var(--inherited_username_color);
+	font-size: 1em;
+
+	content: var(--username_nickname_text, 'DEFAULT_NICKNAME');
+	max-width: var(--inherited_username_max_width);
+	width: var(--inherited_username_width);
+	margin-top: var(--inherited_username_margin_top);
+	margin-bottom: var(--inherited_username_margin_bottom);
+	margin-left: var(--inherited_username_margin_left);
+	margin-right: var(--inherited_username_margin_right);
+	text-overflow: var(--inherited_username_text_overflow_style);
+
+	/* 		recommended not to change */
+	overflow: hidden;
+	text-align: center;
+}
+
+li[class$='voice_state'] span[class*='name'] {
+	background-color: rgba(30, 33, 36, 0.95);
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	font-size: 14px;
+	padding: 4px 6px;
+	text-align: -webkit-match-parent;
+
+	background-color: var(--username_background_color, rgba(30, 33, 36, 0.95)) !important;
+	border-radius: var(--username_border_radius, calc(1em * 3 / 14));
+	color: var(--username_color, #fff) !important;
+	display: var(--username_display, block);
+	font-size: 1em !important;
+	padding: var(--calculated_username_vertical_padding) var(--calculated_username_horizontal_padding);
+	text-align: center;
+
+	max-width: var(--calculated_username_max_width);
+	width: var(--calculated_username_width);
+	margin-top: var(--username_margin_top, 0em);
+	margin-bottom: var(--username_margin_bottom, 0em);
+	margin-left: var(--username_margin_left, calc(8 / 14 * 1em));
+	margin-right: var(--username_margin_right, calc(8 / 14 * 1em));
+	text-overflow: var(--username_text_overflow_style, ellipsis);
+
+	/* 		recommended not to change */
+	overflow: hidden;
+}
+
+li[class$='voice_state'][class*='speaking'] span[class*='name'] {
+	background-color: var(--username_speaking_background_color, var(--inherited_username_background_color)) !important;
+}
+
+/* 		icons mod */
+li[class$='voice_state'][class~='self_mute']:after,
+li[class$='voice_state'][class~='self_deaf']:after,
+li[class$='voice_state'][class~='mute']:after,
+li[class$='voice_state'][class~='deaf']:after {
+	background-repeat: no-repeat;
+	background-size: contain;
+	content: '';
+	display: var(--icon_display, none);
+	filter: var(--icon_filter, none);
+	height: var(--calculated_username_box_height);
+	position: static;
+}
+
+li[class$='voice_state'][class~='self_mute']:after,
+li[class$='voice_state'][class~='mute']:after,
+li[class$='voice_state'][class~='deaf']:after {
+	width: var(--calculated_username_box_height);
+}
+
+li[class$='voice_state'][class~='self_mute']:after {
+	background-image: var(--icon_mute_image, url('https://i.imgur.com/N41639K.png'));
+}
+
+li[class$='voice_state'][class~='mute']:after {
+	background-image: var(--icon_servermute_image, url('https://i.imgur.com/dGLktVK.png'));
+}
+
+li[class$='voice_state'][class~='deaf']:after {
+	background-image: var(--icon_serverdeaf_image, url('https://i.imgur.com/PIzZueQ.png'));
+}
+
+li[class$='voice_state'][class~='self_mute'][class~='self_deaf']:after,
+li[class$='voice_state'][class~='self_mute'][class~='deaf']:after,
+li[class$='voice_state'][class~='mute'][class~='self_deaf']:after,
+li[class$='voice_state'][class~='mute'][class~='deaf']:after {
+	width: calc(var(--calculated_username_box_height) * 2 + var(--inherited_username_margin_right));
+}
+
+li[class$='voice_state'][class~='self_mute'][class~='self_deaf']:after {
+	background-image: var(--icon_mute_deaf_image, url('https://i.imgur.com/MuYZsfA.png'));
+}
+
+li[class$='voice_state'][class~='self_mute'][class~='deaf']:after {
+	background-image: var(--icon_mute_serverdeaf_image, url('https://i.imgur.com/ahiYmuD.png'));
+}
+
+li[class$='voice_state'][class~='mute'][class~='self_deaf']:after {
+	background-image: var(--icon_servermute_deaf_image, url('https://i.imgur.com/B75U9Qo.png'));
+}
+
+li[class$='voice_state'][class~='mute'][class~='deaf']:after {
+	background-image: var(--icon_servermute_serverdeaf_image, url('https://i.imgur.com/cNJoKKP.png'));
+}
+
+li[class$='voice_state'][class*='speaking'][class~='deaf']:after {
+	filter: var(--icon_speaking_filter, none);
+}

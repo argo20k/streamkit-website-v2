@@ -1,0 +1,74 @@
+:root {
+	/* voice-states-container  */
+	--voice_states_container_horizontal_alignment: initial;
+	/* --voice_states_container_horizontal_alignment: left; */
+	/* --voice_states_container_horizontal_alignment: center; */
+	/* --voice_states_container_horizontal_alignment: right; */
+	--voice_states_container_vertical_alignment: initial;
+	/* --voice_states_container_vertical_alignment: start; */
+	/* --voice_states_container_vertical_alignment: center; */
+	/* --voice_states_container_vertical_alignment: end; */
+	--voice_states_container_direction: initial;
+	/* --voice_states_container_direction: column; */
+	/* --voice_states_container_direction: row; */
+	/* --voice_states_container_direction: column-reverse; */
+	/* --voice_states_container_direction: row-reverse; */
+}
+
+/* .voiceContainer { */
+div[class~='voice_container'] {
+	/*  */
+	display: flex;
+	align-items: initial;
+	justify-content: initial;
+	height: 100vh;
+}
+div[class~='voice_container'] {
+	justify-content: left;
+	/* justify-content: center; */
+	/* justify-content: right; */
+	align-items: start;
+	/* align-items: center; */
+	/* align-items: end; */
+}
+div[class~='voice_container'] {
+	justify-content: var(--voice_states_container_horizontal_alignment);
+	align-items: var(--voice_states_container_vertical_alignment);
+}
+
+/* .voiceStates { */
+ul[class~='voice_states'] {
+	padding-left: initial;
+	margin: 1rem;
+	display: flex;
+	justify-content: inherit;
+	align-items: inherit;
+	flex-wrap: wrap;
+}
+ul[class~='voice_states'] {
+	flex-direction: column;
+	/* flex-direction: row; */
+	/* flex-direction: column-reverse; */
+	/* flex-direction: row-reverse; */
+}
+ul[class~='voice_states'] {
+	flex-direction: var(--voice_states_container_direction);
+}
+
+/* .voiceState { */
+li[class~='voice_state'] {
+	height: initial;
+	padding: initial;
+	margin-bottom: initial;
+	display: flex;
+	align-items: center;
+}
+
+/* .user { */
+li[class~='voice_state'] div[class*='username'] {
+	padding-top: initial;
+}
+
+li[class~='voice_state'] span[class*='name'] {
+	white-space: nowrap;
+}

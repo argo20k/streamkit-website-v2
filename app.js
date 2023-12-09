@@ -1,23 +1,8 @@
-/**
- *
- *
- * @param {String} html HTML string that will be converted to a HTML element
- * @returns {Element} HTML element of @param {String} html
- */
-function elementFromHtml(html) {
-	const template = document.createElement('template');
-
-	template.innerHTML = html.trim();
-
-	return template.content.firstElementChild;
-}
-
 //
 //
 // buttons
 
 // submenus.buttons
-
 const visbilityIconsHtml = {
 	visible: '<span class="icon-visibility-on"></span>',
 	hidden: '<span class="icon-visibility-off"></span>',
@@ -32,9 +17,9 @@ var observer8 = new MutationObserver(function (mutations) {
 		if (mutation.type === 'attributes') {
 			if (mutation.attributeName === 'data-state') {
 				if (mutation.target.dataset.state === 'inactive') {
-					mutation.target.innerHTML = visbilityIconsHtml['hidden'];
-				} else if (mutation.target.dataset.state === 'active') {
 					mutation.target.innerHTML = visbilityIconsHtml['visible'];
+				} else if (mutation.target.dataset.state === 'active') {
+					mutation.target.innerHTML = visbilityIconsHtml['hidden'];
 				}
 			}
 		}
@@ -70,76 +55,87 @@ function setButtonData() {
 		var iconName;
 		var dataValue;
 		var classNames = [];
-		var HTML;
+		var html;
+		var id;
 
 		textContentArray.forEach((buttonData) => {
+			if (/value-/i.test(buttonData)) {
+				dataValue = buttonData.replace(/value-/i, '');
+			}
 			if (/icon-/i.test(buttonData)) {
+				classNames.push('icon');
 				iconName = buttonData.toLowerCase();
-				classNames.push('icon');
-				HTML = `<span class="${iconName}"></span>`;
+				html = `<span class="${iconName}"></span>`;
 			}
-			if (/dropdownOption-/i.test(buttonData)) {
-				dataValue = buttonData.replace(/dropdownOption-/i, '');
-				classNames.push('dropdown-option');
-				HTML = `<span class="icon-check"></span>${dataValue}`;
-			} else if (/dropdownPicker/i.test(buttonData)) {
-				classNames.push('dropdown-picker');
-				HTML = `Select an Option<span class="icon-expand-more"></span>`;
+			if (/extraClasses-/i.test(buttonData)) {
+				if (/submenu-arrow/i.test(buttonData)) {
+					classNames.push('submenu-arrow');
+				} else if (/submenu-visibility/i.test(buttonData)) {
+					classNames.push('submenu-visibility');
+				}
 			}
-			if (/checkbox/i.test(buttonData)) {
-				classNames.push('checkbox');
-				HTML = `<span class="icon-check"></span>`;
-			}
-			if (/alignment/i.test(buttonData)) {
-				classNames.push('icon');
-				classNames.push('alignment');
-				HTML = `<span class="icon-square-cropped"></span>`;
-			}
-			if (/submenu/i.test(buttonData)) {
-				classNames.push('submenu');
-			}
-			if (/visibility/i.test(buttonData)) {
-				classNames.push('visibility');
-			}
-			if (/submenu-arrow/i.test(buttonData)) {
-				classNames.push('submenu-arrow');
-			}
-			if (/trailingText-/i.test(buttonData)) {
-				trailingTextValue = buttonData.replace(/trailingText-/i, '');
-				HTML += trailingTextValue;
-				classNames.pop('icon');
-			}
-			if (/addElement-/i.test(buttonData)) {
-				classNames.push('add-element');
-				HTML = `<span class="icon-add"></span>${buttonData.replace(/addElement-/i, '')}`;
+			if (/id-/i.test(buttonData)) {
+				id = buttonData.replace(/id-/i, '');
 			}
 
-			if (/data-/i.test(buttonData)) {
-				classNames.push('text');
-				dataValue = buttonData.replace(/data-/i, '');
-				// if button data only includes data and nothing else, then just set the innerhtml to the dataValue as well
-				if (textContentArray.length <= 1) {
-					HTML = dataValue;
+			if (/type-/i.test(buttonData)) {
+				if (/dropdown-picker/i.test(buttonData)) {
+					classNames.push('dropdown-picker');
+					html = `Select an Option<span class="icon-expand-more"></span>`;
+				} else if (/checkbox/i.test(buttonData)) {
+					classNames.push('checkbox');
+					html = `<span class="icon-check"></span>`;
+				} else if (/alignment/i.test(buttonData)) {
+					classNames.push('icon');
+					classNames.push('alignment');
+					html = `<span class="icon-square-cropped"></span>`;
+				} else if (/submenu/i.test(buttonData)) {
+					classNames.push('submenu');
+				} else if (/dropdownOption/i.test(buttonData)) {
+					classNames.push('dropdown-option');
+					html = `<span class="icon-check"></span>Option HTML`;
+					textContentArray.forEach((buttonData) => {
+						if (/html-/i.test(buttonData)) {
+							html = `<span class="icon-check"></span>${buttonData.replace(/html-/i, '')}`;
+						}
+					});
+				} else if (/text/i.test(buttonData)) {
+					classNames.push('text');
+					html = 'Button HTML';
+					textContentArray.forEach((buttonData) => {
+						if (/html-/i.test(buttonData)) {
+							html = buttonData.replace(/html-/i, '');
+						}
+					});
+				} else if (/addElement/i.test(buttonData)) {
+					classNames.push('add-element');
+					textContentArray.forEach((buttonData) => {
+						if (/html-/i.test(buttonData)) {
+							html = `<span class="icon-add"></span>${buttonData.replace(/html-/i, '')}`;
+						}
+					});
 				}
 			}
 		});
 
 		// this order is important, so data and class attributes don't get redefined by innerHTML line
-		buttonWithoutClasses.innerHTML = HTML;
-		if (dataValue) {
-			buttonWithoutClasses.dataset.value = dataValue;
-		}
+		buttonWithoutClasses.innerHTML = html;
+		if (dataValue) buttonWithoutClasses.dataset.value = dataValue;
+		if (id) buttonWithoutClasses.id = id;
+
 		classNames.forEach((className) => {
 			buttonWithoutClasses.classList.add(className);
 		});
 
-		if (buttonWithoutClasses.classList.contains('visibility')) {
+		if (buttonWithoutClasses.classList.contains('submenu-visibility')) {
 			var visbilityButton = buttonWithoutClasses;
 			// add data-state observer to visiblity.buttons
 			// updates visiblity.buttons innerHTML
 			observer8.observe(visbilityButton, {
 				attributes: true,
 			});
+
+			visbilityButton.dataset.state = 'active';
 		}
 		if (buttonWithoutClasses.classList.contains('submenu-arrow')) {
 			var submenuArrowButton = buttonWithoutClasses;
@@ -346,11 +342,22 @@ var observer6 = new MutationObserver(function (mutations) {
 		}
 	});
 });
+var observer13 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		var dAAWrapper = mutation.target.parentNode;
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-selected-button') {
+				dAAWrapper.dataset.alignment = mutation.target.dataset.selectedButton;
+			}
+		}
+	});
+});
 
 const directionAndAlignmentWrappers = document.querySelectorAll('.wrapper.direction-and-alignment');
 directionAndAlignmentWrappers.forEach((directionAndAlignmentWrapper) => {
 	var dAAWrapper = directionAndAlignmentWrapper;
 	var directionButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.direction');
+	var alignmentButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.alignment');
 
 	// add data-selected-button observer to direction.button-group
 	// updates direction-and-alignment.wrapper data-direction
@@ -361,6 +368,12 @@ directionAndAlignmentWrappers.forEach((directionAndAlignmentWrapper) => {
 	// add data-direction observer to direction-and-alignment.wrapper
 	// updates alignment.buttons data-direction
 	observer6.observe(dAAWrapper, {
+		attributes: true,
+	});
+
+	// add data-selected-button observer to alignment.button-group
+	// updates direction-and-alignment.wrapper data-alignment
+	observer13.observe(alignmentButtonGroup, {
 		attributes: true,
 	});
 });
@@ -435,6 +448,7 @@ alignmentWrappers.forEach((alignmentWrapper) => {
 		}
 		alignmentButton.dataset.column = columnIndex;
 		alignmentButton.dataset.row = rowIndex;
+		alignmentButton.dataset.value = `col-${columnIndex} row-${rowIndex}`;
 
 		// add data-direction observer to alignment.buttons
 		// updates alignment.buttons innerHTML
@@ -510,26 +524,28 @@ var observer12 = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (mutation.type === 'attributes') {
 			if (mutation.attributeName === 'data-state') {
-				var voiceStateSelectionIdsListWrapper = mutation.target.previousSibling.previousSibling;
-
+				var voiceStateSelectionSpecifityWrapper = mutation.target.parentNode;
+				var voiceStateSelectionIdsListWrapper = voiceStateSelectionSpecifityWrapper.querySelector('.wrapper.voice-state-selection-ids-list');
 				if (mutation.target.dataset.state === 'active') {
 					voiceStateSelectionIdsListWrapper.insertAdjacentHTML(
 						'beforeend',
 						`
-					<div class="wrapper voice-state-selection-id">
-						<div class="wrapper input">
-							<div class="wrapper prefix">Discord User ID</div>
-							<input type="text" value="1234" />
-							<div class="wrapper suffix"></div>
+						<div class="wrapper voice-state-selection-id">
+							<div class="wrapper input">
+								<div class="wrapper prefix">Discord User ID</div>
+								<input type="text" value="1234" />
+								<div class="wrapper suffix"></div>
+							</div>
+							<button>type-submenu, icon-square-cropped, extraClasses-submenu-visibility"</button>
+							<button>type-submenu, icon-delete</button>
 						</div>
-						<button>icon-square-cropped, submenu, visibility"</button>
-						<button>icon-delete, submenu</button>
-					</div>`
+						`
 					);
 					mutation.target.dataset.state = 'inactive';
+
+					// makes sure added buttons have their data set
+					setButtonData();
 				}
-				// makes sure added buttons have their data set
-				setButtonData();
 			}
 		}
 	});
@@ -538,7 +554,6 @@ var observer12 = new MutationObserver(function (mutations) {
 const voiceStateSelectionSpecifityWrappers = document.querySelectorAll('.wrapper.voice-state-selection-specifity');
 voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrapper) => {
 	var addElementButton = voiceStateSelectionSpecifityWrapper.querySelector('button.add-element');
-	var voiceStateSelectionIdsListWrapper = voiceStateSelectionSpecifityWrapper.querySelector('.wrapper.voice-state-selection-ids-list');
 
 	//	add data-state observer to add-element.button
 	//	updates voice-state-selection-ids-list.wrapper -> adds a voice-state-selection-id.wrapper to the list
@@ -546,3 +561,92 @@ voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrappe
 		attributes: true,
 	});
 });
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+(async function () {
+	async function getFile(url) {
+		const response = fetch(url);
+		return response;
+	}
+
+	const defaultPreviewCssText = await (await getFile('styles/00-default.css')).text();
+	var currentPreviewCssText = defaultPreviewCssText;
+
+	//
+	//
+
+	//
+	//
+	// updatePreviewCss
+
+	const cssOptions = document.querySelectorAll('.css-option');
+
+	function updatePreviewCss() {
+		// generate
+
+		// gets the appropriate data from options
+		// generates CSS from data
+		cssOptions.forEach((cssOption) => {
+			var attributeId = cssOption.id;
+			// check attributeId
+			// fill custom variables of a huge CSS template accordingly
+			if (attributeId === 'voice_states_container_direction_and_alignment') {
+				let direction = cssOption.getAttribute('data-direction');
+				currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_direction: [^;]*;/i, `--voice_states_container_direction: ${direction};`);
+
+				let alignment = cssOption.getAttribute('data-alignment');
+				if (alignment.includes('col-1')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: left;`);
+				} else if (alignment.includes('col-2')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: center;`);
+				} else if (alignment.includes('col-3')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: right;`);
+				}
+				if (alignment.includes('row-1')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: start;`);
+				} else if (alignment.includes('row-2')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: center;`);
+				} else if (alignment.includes('row-3')) {
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: end;`);
+				}
+			}
+		});
+
+		// adds style element
+		$('.wrapper.preview').contents().find('#preview-css').remove();
+		$('.wrapper.preview').contents().find('head').append(`<style id='preview-css'>${currentPreviewCssText}</style>`);
+	}
+
+	//	add data-state observer to button[id='generate-css']
+	//	triggers updatePreviewCss()
+	var generateCssButton = document.getElementById('generate-css');
+	var observer14 = new MutationObserver(function (mutations) {
+		mutations.forEach(function (mutation) {
+			if (mutation.type === 'attributes') {
+				if (mutation.attributeName === 'data-state') {
+					if (mutation.target.dataset.state === 'active') {
+						updatePreviewCss();
+
+						mutation.target.dataset.state = 'inactive';
+					}
+				}
+			}
+		});
+	});
+	observer14.observe(generateCssButton, {
+		attributes: true,
+	});
+
+	updatePreviewCss();
+})();

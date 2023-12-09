@@ -152,10 +152,26 @@ button {
 			visibility: hidden;
 		}
 	}
+
+	&.submenu-arrow {
+		background-color: initial;
+
+		& span[class^='icon-'] {
+			color: var(--text-secondary);
+		}
+	}
+
+	&.add-element {
+		background-color: var(--solarised-text-primary);
+	}
 }
 button:hover {
 	&.dropdown-option {
 		background-color: var(--focus-bg-primary) !important;
+	}
+
+	&.add-element {
+		background-color: var(--solarised-text-secondary);
 	}
 }
 button:hover,
@@ -170,13 +186,17 @@ button[data-state='active'] {
 }
 button[data-state='active'] {
 	background-color: var(--bg-secondary);
-	background-color: yellow;
 
 	&.dropdown-option span[class^='icon-'] {
 		visibility: visible;
 	}
 	&.dropdown-option {
 		background-color: var(--bg-tertiary);
+	}
+
+	&.submenu-arrow,
+	&.submenu-visibility {
+		background-color: initial;
 	}
 }
 
@@ -188,10 +208,8 @@ button.dropdown-picker:hover,
 .wrapper.button-group:hover,
 .wrapper.input:hover,
 .wrapper.alignment,
-button.checkbox,
-button.add-element:hover {
+button.checkbox {
 	outline: var(--stroke2) solid var(--bg-secondary);
-	outline: var(--stroke2) solid yellow;
 	outline-offset: calc(-1 * var(--stroke2));
 }
 
@@ -293,9 +311,6 @@ alignment wrapper
 	& button {
 		grid-row: initial;
 
-		/*  */
-		/* background-color: green; */
-
 		/* border radius on only corner buttons */
 		border-radius: var(--radius0);
 		&:nth-child(1) {
@@ -352,7 +367,6 @@ alignment wrapper
 
 .wrapper.direction-and-alignment {
 	background-color: var(--bg-primary);
-	background-color: green;
 	width: fit-content;
 	gap: var(--gap1);
 
@@ -475,7 +489,36 @@ voice-state-selection wrapper
 
 .wrapper.voice-state-selection-specifity {
 	width: 100%;
+}
 
-	/* probably remove this later, just to easy viewing */
-	background-color: green;
+/* 
+main containers for the webpage
+ */
+
+.container.content {
+	height: 100%;
+
+	display: flex;
+	& > * {
+		width: 100%;
+	}
+}
+
+.container.side-menu {
+	background-color: var(--bg-primary);
+}
+
+body {
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.wrapper.preview {
+	background: repeating-conic-gradient(#aaa 0 25%, #ccc 0 50%) 50% /32px 32px;
+
+	border: none;
+	height: 100%;
+	width: 100%;
 }
