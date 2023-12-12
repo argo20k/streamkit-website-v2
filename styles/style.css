@@ -17,6 +17,11 @@
 body {
 	background-color: grey;
 	/* background-color: var(--bg-primary); */
+
+	/*  */
+
+	overflow: hidden;
+	/* overflow: clip; */
 }
 
 html {
@@ -153,6 +158,17 @@ button {
 		}
 	}
 
+	&.submenu {
+		width: 1rem;
+		height: 100%;
+		border-radius: var(--radius0);
+
+		flex-shrink: 0;
+
+		/*  */
+		/* background-color: initial; */
+	}
+
 	&.submenu-arrow {
 		background-color: initial;
 
@@ -162,7 +178,7 @@ button {
 	}
 
 	&.add-element {
-		background-color: var(--solarised-text-primary);
+		background-color: var(--solarised-text-secondary);
 	}
 }
 button:hover {
@@ -171,7 +187,7 @@ button:hover {
 	}
 
 	&.add-element {
-		background-color: var(--solarised-text-secondary);
+		background-color: var(--solarised-text-primary);
 	}
 }
 button:hover,
@@ -207,6 +223,7 @@ outline
 button.dropdown-picker:hover,
 .wrapper.button-group:hover,
 .wrapper.input:hover,
+.wrapper.input[data-state='active'],
 .wrapper.alignment,
 button.checkbox {
 	outline: var(--stroke2) solid var(--bg-secondary);
@@ -247,6 +264,7 @@ dropdown-options-menu wrapper
 
 	/*  */
 	position: absolute;
+	/* position: relative; */
 
 	& button {
 		grid-row: initial;
@@ -365,15 +383,6 @@ alignment wrapper
 	}
 }
 
-.wrapper.direction-and-alignment {
-	background-color: var(--bg-primary);
-	width: fit-content;
-	gap: var(--gap1);
-
-	display: flex;
-	flex-direction: column;
-}
-
 /* 
 submenu wrapper
 */
@@ -386,17 +395,6 @@ submenu wrapper
 	align-items: center;
 
 	width: 100%;
-}
-
-button.submenu {
-	width: 1rem;
-	height: 100%;
-	border-radius: var(--radius0);
-
-	flex-shrink: 0;
-
-	/*  */
-	/* background-color: initial; */
 }
 
 .wrapper.submenu-content {
@@ -495,13 +493,11 @@ voice-state-selection wrapper
 main containers for the webpage
  */
 
-.container.content {
+.container {
+	width: 100%;
 	height: 100%;
 
 	display: flex;
-	& > * {
-		width: 100%;
-	}
 }
 
 .container.side-menu {
@@ -521,4 +517,23 @@ body {
 	border: none;
 	height: 100%;
 	width: 100%;
+}
+
+.container.css-option-group {
+	padding-right: var(--padding1);
+}
+
+.container.direction-and-alignment {
+	gap: var(--gap1);
+
+	flex-direction: column;
+}
+
+.container.margins-and-gaps {
+	/* gap: var(--gap1); */
+
+	/* flex-direction: column; */
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }

@@ -1,32 +1,39 @@
 :root {
 	/* voice-states-container  */
-	--voice_states_container_horizontal_alignment: initial;
-	/* --voice_states_container_horizontal_alignment: left; */
-	/* --voice_states_container_horizontal_alignment: center; */
-	/* --voice_states_container_horizontal_alignment: right; */
-	--voice_states_container_vertical_alignment: initial;
-	/* --voice_states_container_vertical_alignment: start; */
-	/* --voice_states_container_vertical_alignment: center; */
-	/* --voice_states_container_vertical_alignment: end; */
 	--voice_states_container_direction: initial;
-	/* --voice_states_container_direction: column; */
-	/* --voice_states_container_direction: row; */
-	/* --voice_states_container_direction: column-reverse; */
-	/* --voice_states_container_direction: row-reverse; */
+	--voice_states_container_horizontal_alignment: initial;
+	--voice_states_container_vertical_alignment: initial;
+
+	/* 	this is an option that is automatically changed according to:
+		--voice_states_container_horizontal_alignment
+		--voice_states_container_vertical_alignment
+	*/
+	--voice_states_horizontal_alignment: initial;
+	--voice_states_vertical_alignment: initial;
+}
+:root {
+	/* voice-states-container  */
+	--voice_states_container_margin_top: initial;
+	--voice_states_container_margin_right: initial;
+	--voice_states_container_margin_bottom: initial;
+	--voice_states_container_margin_left: initial;
+	--voice_states_container_row_gap: initial;
+	--voice_states_container_column_gap: initial;
 }
 
 /* .voiceContainer { */
 div[class~='voice_container'] {
-	/*  */
+	/* layout defaults */
 	display: flex;
 	align-items: initial;
 	justify-content: initial;
 	height: 100vh;
 }
 div[class~='voice_container'] {
-	justify-content: left;
+	/* option defaults */
+	justify-content: start;
 	/* justify-content: center; */
-	/* justify-content: right; */
+	/* justify-content: end; */
 	align-items: start;
 	/* align-items: center; */
 	/* align-items: end; */
@@ -38,25 +45,42 @@ div[class~='voice_container'] {
 
 /* .voiceStates { */
 ul[class~='voice_states'] {
+	/* layout defaults */
 	padding-left: initial;
 	margin: 1rem;
 	display: flex;
-	justify-content: inherit;
-	align-items: inherit;
 	flex-wrap: wrap;
 }
 ul[class~='voice_states'] {
+	/* option defaults */
 	flex-direction: column;
 	/* flex-direction: row; */
 	/* flex-direction: column-reverse; */
 	/* flex-direction: row-reverse; */
+	justify-content: var(--voice_states_container_horizontal_alignment);
+	/* justify-content: var(--voice_states_container_vertical_alignment); */
+	align-items: var(--voice_states_container_vertical_alignment);
+	/* align-items: var(--voice_states_container_horizontal_alignment); */
+	margin-top: 1rem;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	margin-left: 1rem;
 }
 ul[class~='voice_states'] {
 	flex-direction: var(--voice_states_container_direction);
+	justify-content: var(--voice_states_horizontal_alignment);
+	align-items: var(--voice_states_vertical_alignment);
+	margin-top: var(--voice_states_container_margin_top);
+	margin-right: var(--voice_states_container_margin_right);
+	margin-bottom: var(--voice_states_container_margin_bottom);
+	margin-left: var(--voice_states_container_margin_left);
+	row-gap: var(--voice_states_container_row_gap);
+	column-gap: var(--voice_states_container_column_gap);
 }
 
 /* .voiceState { */
 li[class~='voice_state'] {
+	/* layout defaults */
 	height: initial;
 	padding: initial;
 	margin-bottom: initial;
@@ -66,9 +90,11 @@ li[class~='voice_state'] {
 
 /* .user { */
 li[class~='voice_state'] div[class*='username'] {
+	/* layout defaults */
 	padding-top: initial;
 }
 
 li[class~='voice_state'] span[class*='name'] {
+	/* layout defaults */
 	white-space: nowrap;
 }

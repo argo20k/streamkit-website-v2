@@ -15,14 +15,13 @@
 	</head>
 	<body>
 		<header>header <button>type-text, html-Generate CSS, id-generate-css</button></header>
-		<div class="container content">
+		<main class="container content">
 			<div class="container side-menu left">
 				<div class="wrapper submenu">
 					<div class="wrapper submenu-header">
-						<!-- <button>type-submenu, extraClasses-submenu-arrow</button> -->
-						<button>type-submenu, extraClasses-submenu-arrow</button>
+						<button>type-submenu, icon-square-cropped, extraClasses-submenu-arrow</button>
 						<div class="wrapper submenu-header-content">
-							<div class="wrapper voice-state-selection css-option">
+							<div class="wrapper voice-state-selection css-option" id="unfinished">
 								<button>type-checkbox</button>
 								<div class="wrapper button-group">
 									<button>type-text, html-Is, value-Is</button>
@@ -30,7 +29,7 @@
 								</div>
 								<div class="wrapper dropdown">
 									<button>type-dropdown-picker</button>
-									<div class="wrapper button-group dropdown-options-menu">
+									<ul class="wrapper button-group dropdown-options-menu">
 										<button>type-dropdownOption, html-All, value-All</button>
 										<button>type-dropdownOption, html-Widget Owner, value-Widget Owner</button>
 										<button>type-dropdownOption, html-First Child, value-First Child</button>
@@ -38,7 +37,7 @@
 										<button>type-dropdownOption, html-Only Child, value-Only Child</button>
 										<button>type-dropdownOption, html-Discord User IDs, value-Discord User IDs</button>
 										<button>type-dropdownOption, html-nth-children, value-nth-children</button>
-									</div>
+									</ul>
 								</div>
 								<button>type-submenu, icon-square-cropped, extraClasses-submenu-visibility</button>
 								<button>type-submenu, icon-delete</button>
@@ -58,7 +57,7 @@
 									<button>type-submenu, icon-delete</button>
 								</div>
 							</div>
-							<button>type-addElement, html-nth-child</button>
+							<button>type-addElement, html-Discord User ID</button>
 						</div>
 					</div>
 				</div>
@@ -69,17 +68,17 @@
 			<div class="container side-menu right">
 				<div class="wrapper submenu">
 					<div class="wrapper submenu-header">
-						<button>type-submenu, extraClasses-submenu-arrow</button>
+						<button>type-submenu, icon-square-cropped, extraClasses-submenu-arrow</button>
 						<div class="wrapper submenu-header-content">Voice States Container</div>
 					</div>
 					<div class="wrapper submenu-content">
 						<div class="wrapper submenu">
 							<div class="wrapper submenu-header">
-								<button>type-submenu, extraClasses-submenu-arrow</button>
+								<button>type-submenu, icon-square-cropped, extraClasses-submenu-arrow</button>
 								<div class="wrapper submenu-header-content">Direction and Alignment</div>
 							</div>
 							<div class="wrapper submenu-content">
-								<div class="wrapper direction-and-alignment css-option" id="voice_states_container_direction_and_alignment">
+								<div class="container direction-and-alignment css-option-group css-option" id="voice_states_container_direction_and_alignment">
 									<div class="wrapper button-group direction">
 										<button>icon-arrow-down, value-column</button>
 										<button>icon-arrow-right, value-row</button>
@@ -100,10 +99,112 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="wrapper submenu">
+							<div class="wrapper submenu-header">
+								<button>type-submenu, icon-square-cropped, extraClasses-submenu-arrow</button>
+								<div class="wrapper submenu-header-content">Margins and Gaps</div>
+							</div>
+							<div class="wrapper submenu-content">
+								<!-- <div class="container direction-and-alignment css-option" id="voice_states_container_direction_and_alignment"> -->
+								<div class="container margins-and-gaps css-option-group">
+									<div class="wrapper input css-option" id="voice_states_container_margin_top">
+										<div class="wrapper prefix">
+											<span class="icon-arrow-up"></span>
+										</div>
+										<input type="text" value="1" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="wrapper input css-option" id="voice_states_container_margin_left">
+										<div class="wrapper prefix">
+											<span class="icon-arrow-down"></span>
+										</div>
+										<input type="text" value="1" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="wrapper input css-option" id="voice_states_container_row_gap">
+										<div class="wrapper prefix">
+											<span class="icon-expand-less"></span>
+										</div>
+										<input type="text" value="4/7" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="wrapper input css-option" id="voice_states_container_column_gap">
+										<div class="wrapper prefix">
+											<span class="icon-expand-more"></span>
+										</div>
+										<input type="text" value="11/7" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="wrapper input css-option" id="voice_states_container_margin_bottom">
+										<div class="wrapper prefix">
+											<span class="icon-arrow-up"></span>
+										</div>
+										<input type="text" value="1" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="wrapper input css-option" id="voice_states_container_margin_right">
+										<div class="wrapper prefix">
+											<span class="icon-arrow-down"></span>
+										</div>
+										<input type="text" value="1" />
+										<div class="wrapper suffix">
+											<div class="wrapper dropdown">
+												<button>type-dropdown-picker</button>
+												<ul class="wrapper button-group dropdown-options-menu">
+													<button>type-dropdownOption, html-rem, value-rem</button>
+													<button>type-dropdownOption, html-px, value-px</button>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</main>
 		<footer>footer</footer>
 	</body>
 </html>

@@ -246,6 +246,17 @@ var observer4 = new MutationObserver(function (mutations) {
 			if (mutation.attributeName === 'data-expanded') {
 				if (mutation.target.dataset.expanded === 'true') {
 					dropdownOptionsMenuButtonGroup.dataset.visibility = 'visible';
+
+					// makes sure dropdown menu stays in broser frame
+					var screenWidth = Math.max(document.documentElement['clientWidth']);
+					var elementRect = dropdownOptionsMenuButtonGroup.getBoundingClientRect();
+					var elementMarginLeft = Number(dropdownOptionsMenuButtonGroup.style.getPropertyValue('margin-left').replace('px', ''));
+					var elementRight = Math.floor(elementRect.right - elementMarginLeft);
+					if (elementRight > screenWidth) {
+						dropdownOptionsMenuButtonGroup.style.marginLeft = `-${elementRight - screenWidth}px`;
+					} else {
+						dropdownOptionsMenuButtonGroup.style.marginLeft = `0px`;
+					}
 				} else if (mutation.target.dataset.expanded === 'false') {
 					dropdownOptionsMenuButtonGroup.dataset.visibility = 'hidden';
 				}
@@ -353,9 +364,9 @@ var observer13 = new MutationObserver(function (mutations) {
 	});
 });
 
-const directionAndAlignmentWrappers = document.querySelectorAll('.wrapper.direction-and-alignment');
-directionAndAlignmentWrappers.forEach((directionAndAlignmentWrapper) => {
-	var dAAWrapper = directionAndAlignmentWrapper;
+const directionAndAlignmentContainers = document.querySelectorAll('.container.direction-and-alignment');
+directionAndAlignmentContainers.forEach((directionAndAlignmentContainer) => {
+	var dAAWrapper = directionAndAlignmentContainer;
 	var directionButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.direction');
 	var alignmentButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.alignment');
 
@@ -494,8 +505,7 @@ var observer11 = new MutationObserver(function (mutations) {
 
 const submenuWrappers = document.querySelectorAll('.wrapper.submenu');
 submenuWrappers.forEach((submenuWrapper) => {
-	submenuArrowButton = submenuWrapper.querySelector('button.submenu-arrow');
-	submenuContentWrapper = submenuWrapper.querySelector('.wrapper.submenu-content');
+	var submenuArrowButton = submenuWrapper.querySelector('button.submenu-arrow');
 
 	//	add data-state observer to submenu-arrow.button
 	//	updates submenu.wrapper data-expanded
@@ -564,6 +574,89 @@ voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrappe
 
 //
 //
+// inputs + input-wrappers
+
+const inputs = document.querySelectorAll('input');
+inputs.forEach((input) => {
+	input.dataset.state = 'inactive';
+
+	input.addEventListener('focusin', () => {
+		if (input.dataset.state === 'inactive') {
+			input.dataset.state = 'active';
+		}
+	});
+
+	input.addEventListener('focusout', () => {
+		if (input.dataset.state === 'active') {
+			input.dataset.state = 'inactive';
+		}
+	});
+});
+
+var observer15 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			if (mutation.attributeName === 'data-state') {
+				mutation.target.parentNode.dataset.state = mutation.target.dataset.state;
+			}
+		}
+	});
+});
+var observer16 = new MutationObserver(function (mutations) {
+	mutations.forEach(function (mutation) {
+		if (mutation.type === 'attributes') {
+			var inputElement = mutation.target.parentNode.parentNode.querySelector('input');
+
+			if (mutation.attributeName === 'data-expanded') {
+				if (mutation.target.dataset.expanded === 'true') {
+					mutation.target.parentNode.parentNode.dataset.state = 'active';
+				} else if (mutation.target.dataset.expanded === 'false') {
+					if (inputElement.dataset.state !== 'active') {
+						mutation.target.parentNode.parentNode.dataset.state = 'inactive';
+					}
+				}
+			} else if (mutation.attributeName === 'data-selected-option') {
+				var mathValue = eval(inputElement.value);
+				mutation.target.parentNode.parentNode.dataset.value = mathValue + mutation.target.dataset.selectedOption;
+			}
+		}
+	});
+});
+
+const inputWrappers = document.querySelectorAll('.wrapper.input');
+inputWrappers.forEach((inputWrapper) => {
+	var inputElement = inputWrapper.querySelector('input');
+	var dropdownWrapper = inputWrapper.querySelector('.wrapper.dropdown');
+
+	//	add data-state observer to input
+	//	updates input.wrapper state
+	observer15.observe(inputElement, {
+		attributes: true,
+	});
+	inputElement.dataset.state = 'inactive';
+
+	var mathValue = eval(inputElement.value);
+	if (dropdownWrapper) {
+		//	add data-expanded observer to dropdown.wrapper
+		//	updates input.wrapper state
+		observer16.observe(dropdownWrapper, {
+			attributes: true,
+		});
+
+		inputElement.addEventListener('input', () => {
+			mathValue = eval(inputElement.value);
+			inputWrapper.dataset.value = mathValue + dropdownWrapper.dataset.selectedOption;
+		});
+		inputWrapper.dataset.value = mathValue + dropdownWrapper.dataset.selectedOption;
+	} else {
+		inputElement.addEventListener('input', () => {
+			mathValue = eval(inputElement.value);
+			inputWrapper.dataset.value = mathValue;
+		});
+		inputWrapper.dataset.value = mathValue;
+	}
+});
+
 //
 //
 //
@@ -573,6 +666,12 @@ voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrappe
 //
 //
 //
+//
+//
+
+//
+//
+// preview-CSS
 
 (async function () {
 	async function getFile(url) {
@@ -582,9 +681,6 @@ voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrappe
 
 	const defaultPreviewCssText = await (await getFile('styles/00-default.css')).text();
 	var currentPreviewCssText = defaultPreviewCssText;
-
-	//
-	//
 
 	//
 	//
@@ -601,24 +697,37 @@ voiceStateSelectionSpecifityWrappers.forEach((voiceStateSelectionSpecifityWrappe
 			var attributeId = cssOption.id;
 			// check attributeId
 			// fill custom variables of a huge CSS template accordingly
-			if (attributeId === 'voice_states_container_direction_and_alignment') {
-				let direction = cssOption.getAttribute('data-direction');
-				currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_direction: [^;]*;/i, `--voice_states_container_direction: ${direction};`);
+			if (attributeId !== 'unfinished') {
+				if (attributeId === 'voice_states_container_direction_and_alignment') {
+					let direction = cssOption.getAttribute('data-direction');
+					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_direction: [^;]*;/i, `--voice_states_container_direction: ${direction};`);
+					if (direction === 'column' || direction === 'column-reverse') {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_horizontal_alignment: [^;]*;/i, `--voice_states_horizontal_alignment: var(--voice_states_container_vertical_alignment);`);
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_vertical_alignment: [^;]*;/i, `--voice_states_vertical_alignment: var(--voice_states_container_horizontal_alignment);`);
+					} else if (direction === 'row' || direction === 'row-reverse') {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_horizontal_alignment: [^;]*;/i, `--voice_states_horizontal_alignment: var(--voice_states_container_horizontal_alignment);`);
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_vertical_alignment: [^;]*;/i, `--voice_states_vertical_alignment: var(--voice_states_container_vertical_alignment);`);
+					}
 
-				let alignment = cssOption.getAttribute('data-alignment');
-				if (alignment.includes('col-1')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: left;`);
-				} else if (alignment.includes('col-2')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: center;`);
-				} else if (alignment.includes('col-3')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: right;`);
-				}
-				if (alignment.includes('row-1')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: start;`);
-				} else if (alignment.includes('row-2')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: center;`);
-				} else if (alignment.includes('row-3')) {
-					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: end;`);
+					let alignment = cssOption.getAttribute('data-alignment');
+					if (alignment.includes('col-1')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: start;`);
+					} else if (alignment.includes('col-2')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: center;`);
+					} else if (alignment.includes('col-3')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: end;`);
+					}
+					if (alignment.includes('row-1')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: start;`);
+					} else if (alignment.includes('row-2')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: center;`);
+					} else if (alignment.includes('row-3')) {
+						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_vertical_alignment: [^;]*;/i, `--voice_states_container_vertical_alignment: end;`);
+					}
+				} else {
+					let value = cssOption.getAttribute('data-value');
+					var regex = new RegExp('--' + attributeId + ': [^;]*;', 'i');
+					currentPreviewCssText = currentPreviewCssText.replace(regex, `--${attributeId}: ${value};`);
 				}
 			}
 		});
