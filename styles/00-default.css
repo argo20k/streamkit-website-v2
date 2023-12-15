@@ -1,8 +1,16 @@
 :root {
-	/* voice-states-container  */
+	/* voice-states-container */
 	--voice_states_container_direction: initial;
 	--voice_states_container_horizontal_alignment: initial;
 	--voice_states_container_vertical_alignment: initial;
+
+	/* voice-states-container */
+	--voice_states_container_margin_top: initial;
+	--voice_states_container_margin_right: initial;
+	--voice_states_container_margin_bottom: initial;
+	--voice_states_container_margin_left: initial;
+	--voice_states_container_row_gap: initial;
+	--voice_states_container_column_gap: initial;
 
 	/* 	this is an option that is automatically changed according to:
 		--voice_states_container_horizontal_alignment
@@ -12,13 +20,9 @@
 	--voice_states_vertical_alignment: initial;
 }
 :root {
-	/* voice-states-container  */
-	--voice_states_container_margin_top: initial;
-	--voice_states_container_margin_right: initial;
-	--voice_states_container_margin_bottom: initial;
-	--voice_states_container_margin_left: initial;
-	--voice_states_container_row_gap: initial;
-	--voice_states_container_column_gap: initial;
+	/* voice-state */
+	--voice_state_column_gap: initial;
+	--voice_state_row_gap: initial;
 }
 
 /* .voiceContainer { */
@@ -65,6 +69,8 @@ ul[class~='voice_states'] {
 	margin-right: 1rem;
 	margin-bottom: 1rem;
 	margin-left: 1rem;
+	row-gap: calc(4 / 7 * 1rem);
+	column-gap: calc(11 / 7 * 1rem);
 }
 ul[class~='voice_states'] {
 	flex-direction: var(--voice_states_container_direction);
@@ -86,6 +92,27 @@ li[class~='voice_state'] {
 	margin-bottom: initial;
 	display: flex;
 	align-items: center;
+}
+li[class~='voice_state'] {
+	/* option defaults */
+	column-gap: calc(2 / 7 * 1rem);
+	row-gap: calc(4 / 7 * 1rem);
+	/* flex-direction: row; */
+	/* flex-direction: column; */
+}
+li[class~='voice_state'] {
+	column-gap: var(--voice_state_column_gap);
+	row-gap: var(--voice_state_row_gap);
+}
+
+/* .user { */
+li[class~='voice_state'] img[class*='avatar'] {
+	/* layout defaults */
+	height: 50px;
+	width: 50px;
+	border: 3px solid transparent;
+	border-radius: 50%;
+	margin-right: initial;
 }
 
 /* .user { */

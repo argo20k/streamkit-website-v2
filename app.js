@@ -170,7 +170,7 @@ var observer1 = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (mutation.type === 'attributes') {
 			if (mutation.target.dataset.state === 'active') {
-				mutation.target.parentNode.dataset.selectedButton = mutation.target.dataset.value;
+				mutation.target.parentNode.dataset.value = mutation.target.dataset.value;
 			}
 		}
 	});
@@ -232,8 +232,8 @@ var observer3 = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		var dropdownWrapper = mutation.target.parentNode;
 		if (mutation.type === 'attributes') {
-			if (mutation.attributeName === 'data-selected-button') {
-				dropdownWrapper.dataset.selectedOption = mutation.target.dataset.selectedButton;
+			if (mutation.attributeName === 'data-value') {
+				dropdownWrapper.dataset.selectedOption = mutation.target.dataset.value;
 			}
 		}
 	});
@@ -278,7 +278,7 @@ dropdownWrappers.forEach((dropdownWrapper) => {
 		attributes: true,
 	});
 
-	// 	add data-selected-button observer to dropdown-options-menu.button-group
+	// 	add data-value observer to dropdown-options-menu.button-group
 	//	updates dropdown.wrapper data-selected-option
 	observer3.observe(dropdownOptionsMenuButtonGroup, {
 		attributes: true,
@@ -335,8 +335,8 @@ var observer5 = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		var dAAWrapper = mutation.target.parentNode;
 		if (mutation.type === 'attributes') {
-			if (mutation.attributeName === 'data-selected-button') {
-				dAAWrapper.dataset.direction = mutation.target.dataset.selectedButton;
+			if (mutation.attributeName === 'data-value') {
+				dAAWrapper.dataset.direction = mutation.target.dataset.value;
 			}
 		}
 	});
@@ -357,8 +357,8 @@ var observer13 = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		var dAAWrapper = mutation.target.parentNode;
 		if (mutation.type === 'attributes') {
-			if (mutation.attributeName === 'data-selected-button') {
-				dAAWrapper.dataset.alignment = mutation.target.dataset.selectedButton;
+			if (mutation.attributeName === 'data-value') {
+				dAAWrapper.dataset.alignment = mutation.target.dataset.value;
 			}
 		}
 	});
@@ -370,7 +370,7 @@ directionAndAlignmentContainers.forEach((directionAndAlignmentContainer) => {
 	var directionButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.direction');
 	var alignmentButtonGroup = dAAWrapper.querySelector('.wrapper.button-group.alignment');
 
-	// add data-selected-button observer to direction.button-group
+	// add data-value observer to direction.button-group
 	// updates direction-and-alignment.wrapper data-direction
 	observer5.observe(directionButtonGroup, {
 		attributes: true,
@@ -382,7 +382,7 @@ directionAndAlignmentContainers.forEach((directionAndAlignmentContainer) => {
 		attributes: true,
 	});
 
-	// add data-selected-button observer to alignment.button-group
+	// add data-value observer to alignment.button-group
 	// updates direction-and-alignment.wrapper data-alignment
 	observer13.observe(alignmentButtonGroup, {
 		attributes: true,
@@ -688,7 +688,8 @@ inputWrappers.forEach((inputWrapper) => {
 
 	const cssOptions = document.querySelectorAll('.css-option');
 
-	function updatePreviewCss() {
+	// function updatePreviewCss() {
+	async function updatePreviewCss() {
 		// generate
 
 		// gets the appropriate data from options
@@ -698,8 +699,8 @@ inputWrappers.forEach((inputWrapper) => {
 			// check attributeId
 			// fill custom variables of a huge CSS template accordingly
 			if (attributeId !== 'unfinished') {
-				if (attributeId === 'voice_states_container_direction_and_alignment') {
-					let direction = cssOption.getAttribute('data-direction');
+				if (attributeId === 'voice_states_container_direction') {
+					let direction = cssOption.getAttribute('data-value');
 					currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_direction: [^;]*;/i, `--voice_states_container_direction: ${direction};`);
 					if (direction === 'column' || direction === 'column-reverse') {
 						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_horizontal_alignment: [^;]*;/i, `--voice_states_horizontal_alignment: var(--voice_states_container_vertical_alignment);`);
@@ -708,8 +709,8 @@ inputWrappers.forEach((inputWrapper) => {
 						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_horizontal_alignment: [^;]*;/i, `--voice_states_horizontal_alignment: var(--voice_states_container_horizontal_alignment);`);
 						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_vertical_alignment: [^;]*;/i, `--voice_states_vertical_alignment: var(--voice_states_container_vertical_alignment);`);
 					}
-
-					let alignment = cssOption.getAttribute('data-alignment');
+				} else if (attributeId === 'voice_states_container_alignment') {
+					let alignment = cssOption.getAttribute('data-value');
 					if (alignment.includes('col-1')) {
 						currentPreviewCssText = currentPreviewCssText.replace(/--voice_states_container_horizontal_alignment: [^;]*;/i, `--voice_states_container_horizontal_alignment: start;`);
 					} else if (alignment.includes('col-2')) {
@@ -758,4 +759,20 @@ inputWrappers.forEach((inputWrapper) => {
 	});
 
 	updatePreviewCss();
+
+	// triggers updatePreviewCss on data-value change of css-option wrappers
+	var observer17 = new MutationObserver(function (mutations) {
+		mutations.forEach(function (mutation) {
+			if (mutation.type === 'attributes') {
+				if (mutation.attributeName === 'data-value') {
+					updatePreviewCss();
+				}
+			}
+		});
+	});
+	cssOptions.forEach((cssOption) => {
+		observer17.observe(cssOption, {
+			attributes: true,
+		});
+	});
 })();

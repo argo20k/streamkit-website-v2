@@ -529,11 +529,8 @@ body {
 	flex-direction: column;
 }
 
-.container.margins-and-gaps {
-	/* gap: var(--gap1); */
-
-	/* flex-direction: column; */
-
+.container.margins-and-gaps,
+.container.gaps {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 }
