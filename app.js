@@ -746,16 +746,15 @@ inputWrappers.forEach((inputWrapper) => {
 		$('.wrapper.preview').contents().find('head').append(`<style id='preview-css'>${currentPreviewCssText}</style>`);
 	}
 
-	//	add data-state observer to button[id='generate-css']
+	//	add data-state observer to button[id='export-css']
 	//	triggers updatePreviewCss()
-	var generateCssButton = document.getElementById('generate-css');
+	var generateCssButton = document.getElementById('export-css');
 	var observer14 = new MutationObserver(function (mutations) {
 		mutations.forEach(function (mutation) {
 			if (mutation.type === 'attributes') {
 				if (mutation.attributeName === 'data-state') {
 					if (mutation.target.dataset.state === 'active') {
-						console.log('jimmy');
-						updatePreviewCss();
+						navigator.clipboard.writeText(currentPreviewCssText);
 
 						mutation.target.dataset.state = 'inactive';
 					}
