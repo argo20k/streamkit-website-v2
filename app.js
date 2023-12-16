@@ -79,19 +79,19 @@ function setButtonData() {
 			}
 
 			if (/type-/i.test(buttonData)) {
-				if (/dropdown-picker/i.test(buttonData)) {
+				if (/type-dropdown-picker/i.test(buttonData)) {
 					classNames.push('dropdown-picker');
 					html = `Select an Option<span class="icon-expand-more"></span>`;
-				} else if (/checkbox/i.test(buttonData)) {
+				} else if (/type-checkbox/i.test(buttonData)) {
 					classNames.push('checkbox');
 					html = `<span class="icon-check"></span>`;
-				} else if (/alignment/i.test(buttonData)) {
+				} else if (/type-alignment/i.test(buttonData)) {
 					classNames.push('icon');
 					classNames.push('alignment');
 					html = `<span class="icon-square-cropped"></span>`;
-				} else if (/submenu/i.test(buttonData)) {
+				} else if (/type-submenu/i.test(buttonData)) {
 					classNames.push('submenu');
-				} else if (/dropdownOption/i.test(buttonData)) {
+				} else if (/type-dropdownOption/i.test(buttonData)) {
 					classNames.push('dropdown-option');
 					html = `<span class="icon-check"></span>Option HTML`;
 					textContentArray.forEach((buttonData) => {
@@ -99,7 +99,7 @@ function setButtonData() {
 							html = `<span class="icon-check"></span>${buttonData.replace(/html-/i, '')}`;
 						}
 					});
-				} else if (/text/i.test(buttonData)) {
+				} else if (/type-text/i.test(buttonData)) {
 					classNames.push('text');
 					html = 'Button HTML';
 					textContentArray.forEach((buttonData) => {
@@ -107,11 +107,19 @@ function setButtonData() {
 							html = buttonData.replace(/html-/i, '');
 						}
 					});
-				} else if (/addElement/i.test(buttonData)) {
+				} else if (/type-addElement/i.test(buttonData)) {
 					classNames.push('add-element');
 					textContentArray.forEach((buttonData) => {
 						if (/html-/i.test(buttonData)) {
 							html = `<span class="icon-add"></span>${buttonData.replace(/html-/i, '')}`;
+						}
+					});
+				} else if (/type-trailingText/i.test(buttonData)) {
+					classNames.pop('icon');
+					classNames.push('text');
+					textContentArray.forEach((buttonData) => {
+						if (/html-/i.test(buttonData)) {
+							html += buttonData.replace(/html-/i, '');
 						}
 					});
 				}
@@ -746,6 +754,7 @@ inputWrappers.forEach((inputWrapper) => {
 			if (mutation.type === 'attributes') {
 				if (mutation.attributeName === 'data-state') {
 					if (mutation.target.dataset.state === 'active') {
+						console.log('jimmy');
 						updatePreviewCss();
 
 						mutation.target.dataset.state = 'inactive';

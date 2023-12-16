@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?ak9v8u');
-  src:  url('fonts/icomoon.eot?ak9v8u#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?ak9v8u') format('truetype'),
-    url('fonts/icomoon.woff?ak9v8u') format('woff'),
-    url('fonts/icomoon.svg?ak9v8u#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?t1fqx6');
+  src:  url('fonts/icomoon.eot?t1fqx6#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?t1fqx6') format('truetype'),
+    url('fonts/icomoon.woff?t1fqx6') format('woff'),
+    url('fonts/icomoon.svg?t1fqx6#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,42 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-brush:before {
+  content: "\e91d";
+}
+.icon-build-circle:before {
+  content: "\e91e";
+}
+.icon-build:before {
+  content: "\e91f";
+}
+.icon-construction:before {
+  content: "\e920";
+}
+.icon-download-minimal:before {
+  content: "\e921";
+}
+.icon-download:before {
+  content: "\e922";
+}
+.icon-manufacturing:before {
+  content: "\e923";
+}
+.icon-palette:before {
+  content: "\e924";
+}
+.icon-publish:before {
+  content: "\e925";
+}
+.icon-share:before {
+  content: "\e926";
+}
+.icon-upload-minimal:before {
+  content: "\e927";
+}
+.icon-upload:before {
+  content: "\e928";
+}
 .icon-add-circle:before {
   content: "\e900";
 }
